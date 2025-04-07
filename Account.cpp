@@ -8,7 +8,7 @@ class Account
 	int withdrawalCounter = 0, depositsCounter = 0;
 	Customer* accountCustomer;
 
-public: 
+public:
 	int Account::getId() const
 	{
 		return id;
@@ -27,7 +27,7 @@ public:
 	{
 		return depositsCounter;
 	}
-	Customer * Account::getAccountCustomer()
+	Customer* Account::getAccountCustomer()
 	{
 		return accountCustomer;
 	}
@@ -48,36 +48,26 @@ public:
 		balance = _balance;
 	}
 
-	void Account::setWithdrawalcounter(int _wc)
-	{
-		withdrawalCounter = _wc;
-	}
-	void Account::setDepositsCounter(int _dc)
-	{
-		depositsCounter = _dc;
-	}
-	void Account::setCustomer(Customer * cPtr)
+	void Account::setCustomer(Customer* cPtr)
 	{
 		accountCustomer = cPtr;
 	}
 
 
 
-	void Account::setAll(Customer* cPtr, int _id, double _balance, int _wc, int _dc)
+	void Account::setAll(Customer* cPtr, int _id, double _balance)
 	{
 		accountCustomer = cPtr;
 
 		if (_id > 0)
 		{
-		id = _id;
+			id = _id;
 		}
 		else
 		{
 			id = 0;
 		}
 		balance = _balance;
-		withdrawalCounter = _wc;
-		depositsCounter = _dc;
 	}
 
 	Account::Account()
@@ -88,9 +78,9 @@ public:
 		depositsCounter = 0;
 		accountCustomer = nullptr;
 
-		Account::Account(Customer * cPtr, int _id, double _balance, int _wc, int _dc)
+		Account::Account(Customer * cPtr, int _id, double _balance)
 		{
-			SetAll(cPtr, _id, _balance, _wc, _dc)
+			SetAll(cPtr, _id, _balance)
 		}
 	}
 };
