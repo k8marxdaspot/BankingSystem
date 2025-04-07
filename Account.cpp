@@ -1,5 +1,8 @@
 #include "Customer.h"
 #include "Account.h"
+#include <iostream>
+using namespace std;
+#include <string>
 
 class Account
 {
@@ -78,9 +81,49 @@ public:
 		depositsCounter = 0;
 		accountCustomer = nullptr;
 
-		Account::Account(Customer * cPtr, int _id, double _balance)
+	}
+	Account::Account(Customer * cPtr, int _id, double _balance)
+	{
+		SetAll(cPtr, _id, _balance);
+	}
+
+	void Account::depositMoney(double a)
+	{
+		if (a >= 0)
 		{
-			SetAll(cPtr, _id, _balance)
+			balance = a;
+			depositsCounter++;
+		}
+		else
+		{
+			cout << "*ERROR NEGATIVE DEPOSIT AMOUNT*"
 		}
 	}
+
+	void Account::withdrawMoney(double w)
+	{
+		if (w <= balance)
+		{
+			balance = balance - w;
+			withdrawalCounter++;
+		}
+		else
+		{
+			cout << "*INSUFFICIENT FUNDS*"
+		}
+	}
+
+	void Account::PrintInfo(double a)
+	{
+		cout << setw(15) << "ID" << setw(15) << "Balance" << setw(20) << "Withdrawals Made" << setw(15) << "Deposits Made"<< endl;
+		for (int i = 0; i < 50; i++)
+		{
+			cout << "=";
+		}
+		cout << endl;
+		cout << setw(15) << id << setw(15) << balance << setw(20) << withdrawalCounter << setw(15) << depositsCounter << endl;
+		accountCustomer.PrintInfo();
+	}
+
+
 };
