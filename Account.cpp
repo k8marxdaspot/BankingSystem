@@ -1,4 +1,4 @@
-
+#include "Customer.h"
 #include "Account.h"
 
 int Account::getId() const
@@ -27,7 +27,6 @@ Customer* Account::getAccountCustomer()
 void Account::setId(int _id)
 {
 	if (_id > 0)
-	int Account::getId() const
 	{
 		id = _id;
 	}
@@ -55,22 +54,10 @@ void Account::setAll(Customer* cPtr, int _id, double _balance)
 	if (_id > 0)
 	{
 		id = _id;
-	Account::Account(Customer* cPtr, int _id, double _balance)
-	{
-		setAll(cPtr, _id, _balance);
 	}
 	else
 	{
 		id = 0;
-		if (a >= 0)
-		{
-			balance = a;
-			depositsCounter++;
-		}
-		else
-		{
-			cout << "*ERROR NEGATIVE DEPOSIT AMOUNT*";
-		}
 	}
 	balance = _balance;
 }
@@ -99,27 +86,6 @@ void Account::depositMoney(double a)
 	else
 	{
 		cout << "*ERROR NEGATIVE DEPOSIT AMOUNT*";
-		if (w <= balance)
-		{
-			balance = balance - w;
-			withdrawalCounter++;
-		}
-		else
-		{
-			cout << "*INSUFFICIENT FUNDS*";
-		}
-	}
-
-	void Account::PrintInfo()
-	{
-		cout << setw(15) << "ID" << setw(15) << "Balance" << setw(20) << "Withdrawals Made" << setw(15) << "Deposits Made" << endl;
-		for (int i = 0; i < 50; i++)
-		{
-			cout << "=";
-		}
-		cout << endl;
-		cout << setw(15) << id << setw(15) << balance << setw(20) << withdrawalCounter << setw(15) << depositsCounter << endl;
-		(*accountCustomer).PrintInfo();
 	}
 }
 
@@ -145,5 +111,5 @@ void Account::PrintInfo()
 	}
 	cout << endl;
 	cout << setw(15) << id << setw(15) << balance << setw(20) << withdrawalCounter << setw(15) << depositsCounter << endl;
-	accountCustomer.PrintInfo();
+	(*accountCustomer).PrintInfo();
 }
