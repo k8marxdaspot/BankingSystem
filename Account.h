@@ -37,9 +37,9 @@ public:
 
 	void withdrawMoney(double w);
 
-	void PrintInfo(double a);
+	void PrintInfo();
 
 
 };
 #endif // !ACCOUNT
-
+#pragma once
