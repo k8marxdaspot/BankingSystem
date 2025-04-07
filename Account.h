@@ -42,8 +42,4 @@ public:
 
 };
 #endif // !ACCOUNT
-<<<<<<< HEAD
 
-=======
-#pragma once
->>>>>>> bbd6eac61987c45d175cd7a9ff75c4d028cc669b
