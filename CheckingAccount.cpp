@@ -42,7 +42,6 @@ public:
 	{
 		if (amount > 0 && getBalance() - amount > 0)
 		{
-			Account::withdrawMoney(amount);
 			Account::WithdrawMoney(amount);
 
 		}
@@ -50,7 +49,6 @@ public:
 		{
 			cout << "Overdraft Warning!" << endl;
 			cout << "Fee: $20" << endl;
-			Account::withdrawMoney(amount + 20);
 			Account::WithdrawMoney(amount + 20);
 		}
 		else if (abs(getBalance() - amount) > overDraftLimit)
