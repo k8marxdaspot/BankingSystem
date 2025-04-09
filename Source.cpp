@@ -18,12 +18,24 @@ int main()
 
 	for (int i = 0; i < sizeof(customerlist); i++)
 	{
-		if ((customerlist[i].getFname() = "") && (customerlist[i].getAddress() == "") && (customerlist[i].getLname() = "") && (customerlist))
+		if ((customerlist[i].getFname() == "") && (customerlist[i].getAddress() == "") && (customerlist[i].getLname() == "") && (customerlist[i].getPhone() == "") && (customerlist[i].getEmail() == ""))
 		{
 			tracker = i;
+
+
+
 		}
+		else cout << "Sorry we are out of account storage" << endl;
 	}
-	customerlist[2] 
+
+
+	
+
+	for (int i = 0; i < sizeof(customerlist); i++)
+	{
+		cout << "An Account Has Already Been Created Using This Email And Phone Number";
+	}
+	
 
 
 
