@@ -37,7 +37,62 @@ int main()
 	}
 	
 
+	int userOpt;
+	cout << "Welcome to Dolphin Bank!" << endl << endl;
+	cout << "Please choose an option:" << endl;
+	cout << "1. CREATE A CHECKING ACCOUNT" << endl;
+	cout << "2. CREATE A SAVINGS ACCOUNT" << endl;
+	cout << "3. VIEW MY ACCOUNT INFORMATION" << endl;
+	cout << "4. MODIFY MY ACCOUNT" << endl;
+	cout << "5. DELETE MY ACCOUNT" << endl;
+	cout << "6. TRANSFER" << endl;
+	cout << "7. QUIT" << endl;
+	cin >> userOpt;
+	cout << endl;
+	while (userOpt != 7)
+	{
+	if (userOpt == 1)
+	{
 
+	}
+	else if (userOpt == 2)
+	{
+
+	}
+	else if (userOpt == 3)
+	{
+
+	}
+	else if (userOpt == 4)
+	{
+
+	}
+	else if (userOpt == 5)
+	{
+
+	}
+	else if (userOpt == 6)
+	{
+
+	}
+	else
+	{
+		cout << "Error invalid option entered!" << endl;
+		cout << "Please make sure to enter an option from 1 to 7!" << endl;
+	}
+
+	cout << "Welcome to Dolphin Bank!" << endl << endl;
+	cout << "Please choose an option:" << endl;
+	cout << "1. CREATE A CHECKING ACCOUNT" << endl;
+	cout << "2. CREATE A SAVINGS ACCOUNT" << endl;
+	cout << "3. VIEW MY ACCOUNT INFORMATION" << endl;
+	cout << "4. MODIFY MY ACCOUNT" << endl;
+	cout << "5. DELETE MY ACCOUNT" << endl;
+	cout << "6. TRANSFER" << endl;
+	cout << "7. QUIT" << endl;
+	cin >> userOpt;
+	cout << endl;
+}
 
 
 
