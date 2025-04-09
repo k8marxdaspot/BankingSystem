@@ -1,4 +1,3 @@
-
 #include "Customer.h"
 #include "Account.h"
 #include <iostream>
@@ -6,11 +5,30 @@ using namespace std;
 
 int main()
 {
-	Customer c1("Kate", "Eggenberg", "123 Happy Lane", "904-429-8970", "keggenb@jacksonville.edu");
-	cout << c1.getFname() << " " << c1.getLname() << " " << c1.getAddress() << " " << c1.getPhone() << " " << c1.getEmail() << endl;
-	c1.setAll("Grace", "Eggenberg", "102 Knights Lane", "904-451-8661", "graceeggenberg@ucf.edu");
-	c1.PrintInfo();
+	Customer customerlist[20];
+	CheckingAccount checkingList[20];
+	SavingAccount savinglist[20];
+	int tracker;
 
-	Account a1(&c1, 1, 20000);
-	a1.depositMoney(30000);
+	customerlist[0].setAll("Bobber", "Chang", "51 stone street", "904-614-7571", "bobberChang@gmail.com");
+	customerlist[1].setAll("Clemente", "Smith", "91 dirt street", "904-555-5550", "ClementeIsHim@gmail.com");
+	customerlist[0].PrintInfo();
+	customerlist[1].PrintInfo();
+
+
+	for (int i = 0; i < sizeof(customerlist); i++)
+	{
+		if ((customerlist[i].getFname() = "") && (customerlist[i].getAddress() == "") && (customerlist[i].getLname() = "") && (customerlist))
+		{
+			tracker = i;
+		}
+	}
+	customerlist[2] 
+
+
+
+
+
+		//MAKE SURE TO DO GET LINE FOR ADDRESS AND CIN>IGNORE AFTER
+
 }
