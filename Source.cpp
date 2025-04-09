@@ -16,26 +16,6 @@ int main()
 	customerlist[1].PrintInfo();
 
 
-	for (int i = 0; i < sizeof(customerlist); i++)
-	{
-		if ((customerlist[i].getFname() == "") && (customerlist[i].getAddress() == "") && (customerlist[i].getLname() == "") && (customerlist[i].getPhone() == "") && (customerlist[i].getEmail() == ""))
-		{
-			tracker = i;
-
-
-
-		}
-		else cout << "Sorry we are out of account storage" << endl;
-	}
-
-
-	
-
-	for (int i = 0; i < sizeof(customerlist); i++)
-	{
-		cout << "An Account Has Already Been Created Using This Email And Phone Number";
-	}
-	
 
 	int userOpt;
 	cout << "Welcome to Dolphin Bank!" << endl << endl;
@@ -53,7 +33,19 @@ int main()
 	{
 		if (userOpt == 1)
 		{
-	
+			for (int i = 0; i < sizeof(customerlist); i++)
+			{
+				cout << "An Account Has Already Been Created Using This Email And Phone Number";
+			}
+			for (int i = 0; i < sizeof(customerlist); i++)
+			{
+				if ((customerlist[i].getFname() == "") && (customerlist[i].getAddress() == "") && (customerlist[i].getLname() == "") && (customerlist[i].getPhone() == "") && (customerlist[i].getEmail() == ""))
+				{
+				tracker = i;
+				}
+				else cout << "Sorry we are out of account storage" << endl;
+			}
+			
 		}
 		else if (userOpt == 2)
 		{
