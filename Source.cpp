@@ -23,12 +23,12 @@ int main()
 			tracker = i;
 		}
 	}
-	customerlist[2] 
+	customerlist[2]
 
 
 
 
 
 		//MAKE SURE TO DO GET LINE FOR ADDRESS AND CIN>IGNORE AFTER
-
+	
 }
