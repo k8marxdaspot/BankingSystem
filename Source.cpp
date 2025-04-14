@@ -9,9 +9,9 @@ int main()
 	Customer customerList[20];
 	CheckingAccount checkingList[20];
 	SavingAccount savingList[20];
-	int customerTracker = 0;
-	int checkingTracker = 0;
-	int savingTracker = 0;
+	int customerTracker = -1;
+	int checkingTracker = -1;
+	int savingTracker = -1;
 
 	customerList[0].setAll("Bobber", "Chang", "51 stone street", "904-614-7571", "bobberChang@gmail.com");
 	customerList[1].setAll("Clemente", "Smith", "91 dirt street", "904-555-5550", "ClementeIsHim@gmail.com");
@@ -49,7 +49,7 @@ int main()
 			bool existingCustomer = false;
 			checkingTracker++;
 
-			if (checkingTracker <= 20) // might give us issues later if somehow checkingTracker isn't over 20 but all slots are filled thus causing us to overwrite someone's checking account
+			if (checkingTracker < 20) // might give us issues later if somehow checkingTracker isn't over 20 but all slots are filled thus causing us to overwrite someone's checking account
 			{
 				cout << "Please input email: ";
 				cin.ignore();
@@ -58,7 +58,7 @@ int main()
 				cout << "Please input phone number:";
 				getline(cin, custPhone);
 
-				for (int i = 0; i < sizeof(customerList); i++) // search for existing customer with matching phone number or email
+				for (int i = 0; i < sizeof(customerTracker); i++) // search for existing customer with matching phone number or email
 				{
 					if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
 					{
@@ -70,14 +70,13 @@ int main()
 						Customer* cPtr = customerList + i;
 						checkingList[checkingTracker].setAll(i, custBalance, cPtr, custOverdraftLimit);
 						existingCustomer = true;
-						break;
 					}
 				}
 
 				if (existingCustomer == false) // did not find existing customer account and thus must create customer and checking account
 				{
 					customerTracker++;
-					if (customerTracker <= 20 && (customerList[customerTracker].getFname() == "" && customerList[customerTracker].getLname() == "" &&
+					if (customerTracker < 20 && (customerList[customerTracker].getFname() == "" && customerList[customerTracker].getLname() == "" &&
 						customerList[customerTracker].getAddress() == "" && customerList[customerTracker].getPhone() == "" &&
 						customerList[customerTracker].getEmail() == "")) // makes sure that customerList array has room for another customer and that the customer in the array that the tracker is on is empty!
 					{
@@ -86,6 +85,7 @@ int main()
 						cout << "Please input last name: ";
 						cin >> custLname;
 						cout << "Please input customer's address: ";
+						cin.ignore();
 						getline(cin, userAddress);
 						customerList[customerTracker].setAll(custFname, custLname, userAddress, custPhone, custEmail);
 
