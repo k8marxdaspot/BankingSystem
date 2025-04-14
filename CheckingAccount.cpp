@@ -26,7 +26,7 @@ CheckingAccount::CheckingAccount(int _id, double _balance, Customer* _customer, 
 }
 void CheckingAccount::setAll(int _id, double _balance, Customer* _customer, double _overDraftLimit)
 {
-	Account::Account(_customer, _id, _balance);
+	Account::setAll(_customer, _id, _balance);
 	overDraftLimit = _overDraftLimit;
 }
 void CheckingAccount::WithdrawMoney(double amount)

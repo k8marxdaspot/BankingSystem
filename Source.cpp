@@ -9,10 +9,14 @@ int main()
 	Customer customerList[20];
 	CheckingAccount checkingList[20];
 	SavingAccount savingList[20];
-	int tracker;
+	int customerTracker = 0;
+	int checkingTracker = 0;
+	int savingTracker = 0;
 
 	customerList[0].setAll("Bobber", "Chang", "51 stone street", "904-614-7571", "bobberChang@gmail.com");
 	customerList[1].setAll("Clemente", "Smith", "91 dirt street", "904-555-5550", "ClementeIsHim@gmail.com");
+	customerTracker++;
+	customerTracker++;
 	customerList[0].PrintInfo();
 	customerList[1].PrintInfo();
 
@@ -27,89 +31,85 @@ int main()
 	cout << "6. TRANSFER" << endl;
 	cout << "7. QUIT" << endl;
 	cin >> userOpt;
+	cin.clear();
 	cout << endl;
 
 	while (userOpt != 7)
 	{
 		if (userOpt == 1)
 		{
-			string userFname;
-			string userLname;
+			string custFname;
+			string custLname;
 			string userAddress;
-			string userEmail;
-			string userPhone;
-			double userBalance;
-			double overdraftLimit;
+			string custEmail;
+			string custPhone;
+			double custBalance;
+			double custOverdraftLimit;
+			Customer* cPtr;
+			bool existingCustomer = false;
+			checkingTracker++;
 
-			cout << "Please input email: ";
-			cin.ignore();
-			getline(cin, userEmail);
-			
-			cout << "Please input phone number:";
-			getline(cin, userPhone);
-
-			for (int i = 0; i < sizeof(customerList); i++)
+			if (checkingTracker <= 20) // might give us issues later if somehow checkingTracker isn't over 20 but all slots are filled thus causing us to overwrite someone's checking account
 			{
-				if (customerList[i].getEmail() == userEmail || customerList[i].getPhone() == userPhone)
-				{
-					cout << "Customer found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
-					cout << "Please input balance for new checking account: ";
-					cin >> userBalance;
-					cout << "Please input overdraft limit for new checking account: ";
-					cin >> overdraftLimit;
-					for (int i = 0; i < sizeof(checkingList); i++)
-					{
-						if (checkingList[i].getAccountCustomer() == nullptr)
-						{
-							checkingList[i].setAll(i, userBalance, &(customerList[i]), overdraftLimit);
-						}
-						else
-						{
-							cout << "We Are Out Of Checking Account Space!" << endl;
-						}
-					}
-				}
-				else
-				{
-					tracker = i;
-					cout << "Please input first name: ";
-					cin >> userFname;
-					cout << "Please input last name: ";
-					cin >> userLname;
-					cout << "Please input customer's address: ";
-					getline(cin, userAddress);
-					cout << "Please input customer's balance: ";
-					cin.ignore();
-					cin >> userBalance;
-					cout << "Please input overdraft limit for customer: ";
-					cin >> overdraftLimit;
+				cout << "Please input email: ";
+				cin.ignore();
+				getline(cin, custEmail);
 
-					for (int i = 0; i < sizeof(customerList); i++)
+				cout << "Please input phone number:";
+				getline(cin, custPhone);
+
+				for (int i = 0; i < sizeof(customerList); i++) // search for existing customer with matching phone number or email
+				{
+					if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
 					{
-						if ((customerList[i].getFname() == "") && (customerList[i].getAddress() == "") && (customerList[i].getLname() == "") && (customerList[i].getPhone() == "") && (customerList[i].getEmail() == ""))
-						{
-							customerList[tracker].setAll(userFname, userLname, userAddress, userPhone, userEmail);
-							for (int i = 0; i < sizeof(checkingList); i++)
-							{
-								if (checkingList[tracker].getAccountCustomer() == nullptr && checkingList[tracker].getBalance() == 0 && checkingList[tracker].getOverDraftLimit() == 0)
-								{
-									checkingList[tracker].setAll(tracker, userBalance, &(customerList[tracker]), overdraftLimit);
-								}
-								else
-								{
-									cout << "We Are Out Of Checking Account Space!" << endl;
-								}
-							}
-						}
-						else
-						{
-							cout << "We Are Out Of Checking Account Storage." << endl;
-						}
+						cout << "Customer found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
+						cout << "Please input balance for new checking account: ";
+						cin >> custBalance;
+						cout << "Please input overdraft limit for new checking account: ";
+						cin >> custOverdraftLimit;
+						Customer* cPtr = customerList + i;
+					;
+						checkingList[checkingTracker].setAll(i, custBalance, cPtr, custOverdraftLimit);
+						existingCustomer = true;
 					}
 				}
+
+				if (existingCustomer == false) // did not find existing customer account and thus must create customer and checking account
+				{
+					customerTracker++;
+					if (customerTracker <= 20 && (customerList[customerTracker].getFname() == "" && customerList[customerTracker].getLname() == "" &&
+						customerList[customerTracker].getAddress() == "" && customerList[customerTracker].getPhone() == "" &&
+						customerList[customerTracker].getEmail() == "")) // makes sure that customerList array has room for another customer and that the customer in the array that the tracker is on is empty!
+					{
+						cout << "Please input first name: ";
+						cin >> custFname;
+						cout << "Please input last name: ";
+						cin >> custLname;
+						cout << "Please input customer's address: ";
+						getline(cin, userAddress);
+						customerList[customerTracker].setAll(custFname, custLname, userAddress, custPhone, custEmail);
+
+						cout << "Please input customer's balance: ";
+						cin.ignore();
+						cin >> custBalance;
+						cout << "Please input overdraft limit for customer: ";
+						cin >> custOverdraftLimit;
+						Customer* cPtr = customerList + customerTracker;
+						checkingList[checkingTracker].setAll(checkingTracker, custBalance, cPtr, custOverdraftLimit);
+					}
+					else // either no room for customer or elment in customer list has preexisting information occupying it
+					{
+						cout << "Out of Room For More Customers!" << endl;
+						break;
+					}
+				}
+				
 			}
-			
-			
+			else
+			{
+				cout << "Sorry We Are Out of Checking Account Space!" << endl;
+				break;
+			}
 		}
 		else if (userOpt == 2)
 		{
@@ -146,7 +146,9 @@ int main()
 		cout << "5. DELETE MY ACCOUNT" << endl;
 		cout << "6. TRANSFER" << endl;
 		cout << "7. QUIT" << endl;
+		cin.ignore();
 		cin >> userOpt;
+		cin.clear();
 		cout << endl;
 	}
 
