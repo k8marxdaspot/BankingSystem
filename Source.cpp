@@ -45,7 +45,7 @@ int main()
 			string custPhone;
 			double custBalance;
 			double custOverdraftLimit;
-			Customer* cPtr;
+			Customer* cPtr = nullptr;
 			bool existingCustomer = false;
 			checkingTracker++;
 
@@ -68,9 +68,9 @@ int main()
 						cout << "Please input overdraft limit for new checking account: ";
 						cin >> custOverdraftLimit;
 						Customer* cPtr = customerList + i;
-					;
 						checkingList[checkingTracker].setAll(i, custBalance, cPtr, custOverdraftLimit);
 						existingCustomer = true;
+						break;
 					}
 				}
 
