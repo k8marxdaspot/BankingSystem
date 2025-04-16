@@ -205,6 +205,7 @@ int main()
 					string custPhone;
 
 					cout << "Please input email: ";
+					cin.ignore();
 					getline(cin, custEmail);
 					cout << "Please input phone number:";
 					cin.ignore();
