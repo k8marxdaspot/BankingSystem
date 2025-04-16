@@ -211,21 +211,21 @@ int main()
 					cout << "Please input phone number:";
 					
 					getline(cin, custPhone);
-					for (int i = 0; i < sizeof(customerTracker); i++) // search for existing customer with matching phone number or email
+					for (int i = 0; i < customerTracker; i++) // search for existing customer with matching phone number or email
 					{
 						if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
 						{
 							customerList[i].PrintInfo();
-							for (int j = 0; j < sizeof(checkingTracker); i++)
+							for (int j = 0; j <= checkingTracker; j++)
 							{
 								if (&customerList[i] == checkingList[j].returnAddress())
 								{
-									cout<< "Checking Account: << endl;
+									cout<< "Checking Account:" << endl;
 									checkingList[j].PrintInfo();
 								}
 								
 							}
-							for (int j = 0; j < sizeof(savingTracker); i++)
+							for (int j = 0; j <= savingTracker; j++)
 							{
 								if (&customerList[i] == savingList[j].returnAddress())
 								{
@@ -235,9 +235,6 @@ int main()
 							}
 						}
 					}
-
-					
-
 				}
 		}
 		else if (userOpt == 4)
