@@ -27,6 +27,7 @@ public:
 	void depositMoney(double a);
 	void withdrawMoney(double w);
 	void PrintInfo();
+	Customer* returnAddress();
 };
 #endif // !ACCOUNT
 

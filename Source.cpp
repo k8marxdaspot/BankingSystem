@@ -19,6 +19,8 @@ int main()
 	customerTracker++;
 	customerList[0].PrintInfo();
 	customerList[1].PrintInfo();
+	checkingList[0].setAll(0, 10000, &customerList[0], 100);
+	checkingList[0].PrintInfo();
 
 	int userOpt;
 	cout << "Welcome to Dolphin Bank!" << endl << endl;
@@ -178,7 +180,6 @@ int main()
 						break;
 					}
 				}
-
 			}
 			else
 			{
@@ -188,15 +189,87 @@ int main()
 		}
 		else if (userOpt == 3)
 		{
-	
+			int tempUserOpt;
+			cout << "Select an Option" << endl;
+			cout << "1. Print Individual Account Information" << endl;
+			cout << "2. Print All Account Information" << endl;
+			cin >> tempUserOpt;
+			if (tempUserOpt != 1 && tempUserOpt != 2)
+			{
+				cout << "Error invalid Option Entered!" << endl;
+			}
+			else
+				if (tempUserOpt == 1)
+				{
+					string custEmail;
+					string custPhone;
+
+					cout << "Please input email: ";
+					getline(cin, custEmail);
+					cout << "Please input phone number:";
+					cin.ignore();
+					getline(cin, custPhone);
+					for (int i = 0; i < sizeof(customerTracker); i++) // search for existing customer with matching phone number or email
+					{
+						if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
+						{
+							customerList[i].PrintInfo();
+							for (int j = 0; j < sizeof(checkingTracker); i++)
+							{
+								if (&customerList[i] == checkingList[j].returnAddress())
+								{
+									checkingList[j].PrintInfo();
+									break;
+								}
+								
+							}
+							for (int j = 0; j < sizeof(savingTracker); i++)
+							{
+								if (&customerList[i] == savingList[j].returnAddress())
+								{
+									savingList[j].PrintInfo();
+									break;
+								}
+							}
+						}
+					}
+
+					
+
+				}
 		}
 		else if (userOpt == 4)
 		{
-	
+			string custEmail;
+			string custPhone;
+			int modifyOption;
+			bool existingCustomer = false;
+			
+			cout << "Please input customer email: ";
+			cin.ignore();
+			getline(cin, custEmail);
+
+			cout << "Please input customer phone number:";
+			getline(cin, custPhone);
+
+			for (int i = 0; i < sizeof(customerTracker); i++) // search for existing customer with matching phone number or email
+			{
+				if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
+				{
+					cout << "Customer found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
+					
+					existingCustomer = true;
+				}
+			}
+
+			if (existingCustomer = false)
+			{
+				cout << "No Exisiting Customer with that Email or Phone Number!";
+			}
 		}
 		else if (userOpt == 5)
 		{
-	
+			checkingList[0].PrintInfo();
 		}
 		else if (userOpt == 6)
 		{
