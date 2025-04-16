@@ -194,6 +194,7 @@ int main()
 			cout << "1. Print Individual Account Information" << endl;
 			cout << "2. Print All Account Information" << endl;
 			cin >> tempUserOpt;
+			cin.ignore();
 			if (tempUserOpt != 1 && tempUserOpt != 2)
 			{
 				cout << "Error invalid Option Entered!" << endl;
@@ -205,10 +206,10 @@ int main()
 					string custPhone;
 
 					cout << "Please input email: ";
-					cin.ignore();
+					
 					getline(cin, custEmail);
 					cout << "Please input phone number:";
-					cin.ignore();
+					
 					getline(cin, custPhone);
 					for (int i = 0; i < sizeof(customerTracker); i++) // search for existing customer with matching phone number or email
 					{
@@ -219,8 +220,8 @@ int main()
 							{
 								if (&customerList[i] == checkingList[j].returnAddress())
 								{
+									cout<< "Checking Account: << endl;
 									checkingList[j].PrintInfo();
-									break;
 								}
 								
 							}
@@ -228,8 +229,8 @@ int main()
 							{
 								if (&customerList[i] == savingList[j].returnAddress())
 								{
+									cout << "Saving Account" << endl;
 									savingList[j].PrintInfo();
-									break;
 								}
 							}
 						}
