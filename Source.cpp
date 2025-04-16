@@ -187,9 +187,42 @@ int main()
 			}
 		}
 		else if (userOpt == 3)
+{
+	int tempUserOpt;
+	cout << "Select an Option" << endl;
+	cout << "1. Print Individual Account Information" << endl;
+	cout << "2. Print All Account Information" << endl;
+	cin >> tempUserOpt;
+	if (tempUserOpt != 1 && tempUserOpt != 2)
+	{
+		cout << "Error invalid Option Entered!" << endl;
+	}
+	else
+		if (tempUserOpt == 1)
 		{
-	
+			string custEmail;
+			string custPhone;
+
+			cout << "Please input email: ";
+			getline(cin, custEmail);
+			cout << "Please input phone number:";
+			cin.ignore();
+			getline(cin, custPhone);
+			for (int i = 0; i < sizeof(customerTracker); i++) // search for existing customer with matching phone number or email
+			{
+				if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
+				{
+					customerlist[i].PrintInfo();
+				}
+			}
+			for (int i = 0; i < sizeof(customerTracker); i++)
+			{
+				customerlist[i].PrintInfo();
+			}
+		
 		}
+
+}
 		else if (userOpt == 4)
 		{
 	
