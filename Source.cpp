@@ -220,7 +220,7 @@ int main()
 							{
 								if (&customerList[i] == checkingList[j].returnAddress())
 								{
-									cout<< "Checking Account: << endl;
+									cout<< "Checking Account:" << endl;
 									checkingList[j].PrintInfo();
 								}
 								
