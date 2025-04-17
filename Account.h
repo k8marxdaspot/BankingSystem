@@ -24,8 +24,8 @@ public:
 	void setAll(Customer* cPtr, int _id, double _balance);
 	Account();
 	Account(Customer* cPtr, int _id, double _balance);
-	void depositMoney(double a);
-	void withdrawMoney(double w);
+	void DepositMoney(double a);
+	void WithdrawMoney(double w);
 	void PrintInfo();
 	Customer* returnAddress();
 };

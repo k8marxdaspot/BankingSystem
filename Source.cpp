@@ -1,5 +1,6 @@
 #include "CheckingAccount.h"
 #include "SavingAccount.h"
+#include <string>
 #include <iostream>
 using namespace std;
 
@@ -23,7 +24,7 @@ int main()
 	checkingList[0].PrintInfo();
 
 	int userOpt;
-	cout << "Welcome to Dolphin Bank!" << endl << endl;
+	cout << endl << "Welcome to Dolphin Bank!" << endl << endl;
 	cout << "Please choose an option:" << endl;
 	cout << "1. CREATE A CHECKING ACCOUNT" << endl;
 	cout << "2. CREATE A SAVINGS ACCOUNT" << endl;
@@ -60,7 +61,7 @@ int main()
 				cout << "Please input phone number:";
 				getline(cin, custPhone);
 
-				for (int i = 0; i < sizeof(customerTracker); i++) // search for existing customer with matching phone number or email
+				for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
 				{
 					if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
 					{
@@ -135,7 +136,7 @@ int main()
 				cout << "Please input phone number:";
 				getline(cin, custPhone);
 
-				for (int i = 0; i < sizeof(customerTracker); i++) // search for existing customer with matching phone number or email
+				for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
 				{
 					if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
 					{
@@ -190,52 +191,67 @@ int main()
 		else if (userOpt == 3)
 		{
 			int tempUserOpt;
+
 			cout << "Select an Option" << endl;
 			cout << "1. Print Individual Account Information" << endl;
 			cout << "2. Print All Account Information" << endl;
 			cin >> tempUserOpt;
 			cin.ignore();
+
 			if (tempUserOpt != 1 && tempUserOpt != 2)
 			{
-				cout << "Error invalid Option Entered!" << endl;
+				cout << "Error Invalid Option Entered!" << endl;
 			}
-			else
-				if (tempUserOpt == 1)
-				{
-					string custEmail;
-					string custPhone;
+			else if (tempUserOpt == 1)
+			{
+				string custEmail;
+				string custPhone;
+				bool existingCustomer = false;
 
-					cout << "Please input email: ";
-					
-					getline(cin, custEmail);
-					cout << "Please input phone number:";
-					
-					getline(cin, custPhone);
-					for (int i = 0; i < customerTracker; i++) // search for existing customer with matching phone number or email
+				cout << "Please input email: ";
+				getline(cin, custEmail);
+				cout << "Please input phone number:";
+				getline(cin, custPhone);
+
+				for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
+				{
+					if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
 					{
-						if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
+						cout << "Customer found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
+						existingCustomer = true;
+						bool existingAccount = false;
+						for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with customer account
 						{
-							customerList[i].PrintInfo();
-							for (int j = 0; j <= checkingTracker; j++)
+							if (&customerList[i] == checkingList[j].returnAddress())
 							{
-								if (&customerList[i] == checkingList[j].returnAddress())
-								{
-									cout<< "Checking Account:" << endl;
-									checkingList[j].PrintInfo();
-								}
-								
+								cout<< "Checking Account:" << endl;
+								checkingList[j].PrintInfo();
+								existingAccount = true;
 							}
-							for (int j = 0; j <= savingTracker; j++)
+							if (&customerList[i] == savingList[j].returnAddress())
 							{
-								if (&customerList[i] == savingList[j].returnAddress())
-								{
-									cout << "Saving Account" << endl;
-									savingList[j].PrintInfo();
-								}
+								cout << "Saving Account" << endl;
+								savingList[j].PrintInfo();
+								existingAccount = true;
 							}
 						}
+						if (existingAccount == false)
+						{
+							cout << "Customer has no associated accounts." << endl;
+						}
+						else
+						{
+
+						}
+						break;
 					}
 				}
+
+				if (existingCustomer == false)
+				{
+					cout << endl << "Customer not found! Cannot display account information." << endl << endl;
+				}
+			}
 		}
 		else if (userOpt == 4)
 		{
@@ -251,24 +267,176 @@ int main()
 			cout << "Please input customer phone number:";
 			getline(cin, custPhone);
 
-			for (int i = 0; i < sizeof(customerTracker); i++) // search for existing customer with matching phone number or email
+			for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
 			{
 				if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
 				{
-					cout << "Customer found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
-					
+					cout << endl << "Customer found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
 					existingCustomer = true;
+					int noOfCustCheckAccs = 0;
+					int noOfCustSavAccs = 0;
+
+					for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with customer account
+					{
+						if (&customerList[i] == checkingList[j].returnAddress())
+						{
+							noOfCustCheckAccs++;
+							cout << endl << "Checking Account #" << noOfCustCheckAccs << " :" << endl;
+							checkingList[j].PrintInfo();
+						}
+						if (&customerList[i] == savingList[j].returnAddress())
+						{
+							noOfCustSavAccs++;
+							cout << endl << "Saving Account #" << noOfCustSavAccs << " :" << endl;
+							savingList[j].PrintInfo();
+						}
+					}
+					
+					cout << endl << "MODIFICATION OPTIONS:" << endl;
+					cout << "1. DEPOSIT" << endl;
+					cout << "2. WITHDRAW" << endl;
+					cout << "3. EDIT CUSTOMER ACCOUNT INFORMATION" << endl;
+					cout << "4. EXIT BACK TO MAIN MENU" << endl;
+					cout << "Please enter option (1-4): ";
+					cin >> modifyOption;
+
+					if (modifyOption == 1 || modifyOption == 2) // don't necessarily think it's a great idea to have this as a loop. bank teller wants to committ one action and once that modification is done should go back to main menu not loop
+					{
+						if (noOfCustCheckAccs == 0 && noOfCustSavAccs == 0)
+						{
+							cout << endl << "This customer has no associated accounts." << endl;
+							cout << "Exiting to main menu..." << endl;
+							break;
+						}
+
+						cout << endl << "Please select account type:" << endl;
+						cout << "1. Checking Account" << endl;
+						cout << "2. Savings Account" << endl;
+						int accountType;
+						cin >> accountType;
+
+						if (accountType == 1 && noOfCustCheckAccs != 0) // checking account 
+						{
+							int custAcc;
+							int tracker = 0;
+							for (int j = 0; j < 20; j++) // displaying all checking accounts associated with customer account
+							{
+								if (&customerList[i] == checkingList[j].returnAddress())
+								{
+									tracker++;
+									cout << endl << "Checking Account #" << j + 1 << " :" << endl;
+									checkingList[j].PrintInfo();
+								}
+							}
+
+							if (tracker > 1) // if there is more than once checking account associated with customer ask teller to choose which account is going to be modified
+							{
+								cout << endl << "Which checking acccount?" << endl;
+								cin >> custAcc;
+								if (custAcc > tracker || custAcc < 1)
+								{
+									cout << endl << "Entered invalid account number!" << endl;
+									cout << "Exiting to main menu..." << endl;
+									break;
+								}
+								custAcc--;
+							}
+							else
+							{
+								custAcc = 0;
+							}
+							
+							double amount;
+							cout << endl << "Enter amount customer would like to deposit or withdraw:";
+							cin >> amount;
+
+							if (modifyOption == 1)
+							{
+								checkingList[custAcc].DepositMoney(amount);
+							}
+							else
+							{
+								checkingList[custAcc].WithdrawMoney(amount);
+							}
+						}
+						else if (accountType == 2 && noOfCustSavAccs != 0) // saving account
+						{
+							int custAcc;
+							int tracker = 0;
+							for (int j = 0; j < 20; j++) // displaying all savings accounts associated with customer account
+							{
+								if (&customerList[i] == savingList[j].returnAddress())
+								{
+									tracker++;
+									cout << endl << "Saving Account #" << j + 1 << " :" << endl;
+									savingList[j].PrintInfo();
+								}
+							}
+
+							if (tracker > 1) // if there is more than once saving account associated with customer ask teller to choose which account is going to be modified
+							{
+								cout << endl << "Which savings acccount?" << endl;
+								cin >> custAcc;
+								if (custAcc > tracker || custAcc < 1)
+								{
+									cout << endl << "Entered invalid account number!" << endl;
+									cout << "Exiting to main menu..." << endl;
+									break;
+								}
+								custAcc--;
+							}
+							else
+							{
+								custAcc = 0;
+							}
+
+							double amount;
+							cout << endl << "Enter amount customer would like to deposit or withdraw:";
+							cin >> amount;
+
+							if (modifyOption == 1)
+							{
+								savingList[custAcc].DepositMoney(amount);
+							}
+							else
+							{
+								savingList[custAcc].WithdrawMoney(amount);
+							}
+						}
+						else if (accountType != 1 || accountType != 2)
+						{
+							cout << endl << "Entered invalid option!" << endl;
+							cout << "Exiting to main menu...";
+							break;
+						}
+						else
+						{
+							cout << endl << "Customer does not have an account of this type." << endl;
+							cout << "Exiting to main menu...";
+							break;
+						}
+					}
+					else if (modifyOption == 3)
+					{
+
+					}
+					else if (modifyOption < 1 || modifyOption > 4)
+					{
+						cout << endl << "Entered invalid option. Exiting to main menu..." << endl;
+						break;
+					}
 				}
 			}
 
-			if (existingCustomer = false)
+			if (existingCustomer == false)
 			{
-				cout << "No Exisiting Customer with that Email or Phone Number!";
+				cout << endl << "No Exisiting Customer with that Email or Phone Number!";
+				cout << "Exiting to main menu...";
 			}
 		}
 		else if (userOpt == 5)
 		{
-			checkingList[0].PrintInfo();
+
 		}
 		else if (userOpt == 6)
 		{
@@ -280,7 +448,7 @@ int main()
 			cout << "Please make sure to enter an option from 1 to 7!" << endl;
 		}
 	
-		cout << "Welcome to Dolphin Bank!" << endl << endl;
+		cout << endl <<  "Welcome to Dolphin Bank!" << endl << endl;
 		cout << "Please choose an option:" << endl;
 		cout << "1. CREATE A CHECKING ACCOUNT" << endl;
 		cout << "2. CREATE A SAVINGS ACCOUNT" << endl;
@@ -289,9 +457,7 @@ int main()
 		cout << "5. DELETE ACCOUNT" << endl;
 		cout << "6. TRANSFER" << endl;
 		cout << "7. QUIT" << endl;
-		cin.ignore();
 		cin >> userOpt;
-		cin.clear();
 		cout << endl;
 	}
 

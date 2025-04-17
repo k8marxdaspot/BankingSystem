@@ -76,29 +76,33 @@ Account::Account(Customer* cPtr, int _id, double _balance)
 	setAll(cPtr, _id, _balance);
 }
 
-void Account::depositMoney(double a)
+void Account::DepositMoney(double a)
 {
 	if (a >= 0)
 	{
-		balance = a;
+		balance += a;
 		depositsCounter++;
+		cout << endl << "DEPOSIT SUCCESSFUL!" << endl;
+		cout << "ACCOUNT BALANCE NOW: $" << balance << endl;
 	}
 	else
 	{
-		cout << "*ERROR NEGATIVE DEPOSIT AMOUNT*";
+		cout << endl << "*ERROR NEGATIVE DEPOSIT AMOUNT*";
 	}
 }
 
-void Account::withdrawMoney(double w)
+void Account::WithdrawMoney(double w)
 {
 	if (w <= balance)
 	{
 		balance = balance - w;
 		withdrawalCounter++;
+		cout << endl << "WITHDRAWAL SUCCESSFUL!" << endl;
+		cout << "ACCOUNT BALANCE NOW: $" << balance << endl;
 	}
 	else
 	{
-		cout << "*INSUFFICIENT FUNDS*";
+		cout << endl << "*INSUFFICIENT FUNDS*";
 	}
 }
 

@@ -33,14 +33,15 @@ void CheckingAccount::WithdrawMoney(double amount)
 {
 	if (amount > 0 && getBalance() - amount > 0)
 	{
-		Account::withdrawMoney(amount);
-
+		Account::WithdrawMoney(amount);
+		cout << endl << "WITHDRAWAL SUCCESSFUL!" << endl;
+		cout << "ACCOUNT BALANCE NOW: $" << getBalance() << endl;
 	}
 	else if (abs(getBalance() - amount) <= overDraftLimit)
 	{
 		cout << "Overdraft Warning!" << endl;
 		cout << "Fee: $20" << endl;
-		Account::withdrawMoney(amount + 20);
+		Account::WithdrawMoney(amount + 20);
 	}
 	else if (abs(getBalance() - amount) > overDraftLimit)
 	{
