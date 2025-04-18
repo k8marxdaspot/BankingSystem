@@ -237,7 +237,7 @@ int main()
 						}
 						if (existingAccount == false)
 						{
-							cout << "Customer has no associated accounts." << endl;
+							cout << endl << "Customer has no associated accounts." << endl;
 						}
 						else
 						{
@@ -406,13 +406,13 @@ int main()
 						else if (accountType != 1 && accountType != 2)
 						{
 							cout << endl << "Entered invalid option!" << endl;
-							cout << "Exiting to main menu...";
+							cout << "Exiting to main menu..." << endl;
 							break;
 						}
 						else
 						{
 							cout << endl << "Customer does not have an account of this type." << endl;
-							cout << "Exiting to main menu...";
+							cout << "Exiting to main menu..." << endl;
 							break;
 						}
 					}
@@ -483,12 +483,155 @@ int main()
 			if (existingCustomer == false)
 			{
 				cout << endl << "No Exisiting Customer with that Email or Phone Number!";
-				cout << "Exiting to main menu...";
+				cout << "Exiting to main menu..." << endl;
 			}
 		}
 		else if (userOpt == 5)
 		{
+			string custEmail;
+			string custPhone;
+			int modifyOption;
+			bool existingCustomer = false;
 
+			cout << "Please input customer email: ";
+			cin.ignore();
+			getline(cin, custEmail);
+
+			cout << "Please input customer phone number:";
+			getline(cin, custPhone);
+
+			for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
+			{
+				if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
+				{
+					cout << endl << "Customer found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
+					existingCustomer = true;
+					int noOfCustCheckAccs = 0;
+					int noOfCustSavAccs = 0;
+
+					for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with customer account
+					{
+						if (&customerList[i] == checkingList[j].returnAddress())
+						{
+							noOfCustCheckAccs++;
+							cout << endl << "Checking Account #" << noOfCustCheckAccs << " :" << endl;
+							checkingList[j].PrintInfo();
+						}
+						if (&customerList[i] == savingList[j].returnAddress())
+						{
+							noOfCustSavAccs++;
+							cout << endl << "Saving Account #" << noOfCustSavAccs << " :" << endl;
+							savingList[j].PrintInfo();
+						}
+					}
+					
+					if (noOfCustCheckAccs == 0 && noOfCustSavAccs == 0)
+					{
+						cout << endl << "This customer has no associated accounts." << endl;
+						cout << "Exiting to main menu..." << endl;
+						break;
+					}
+
+					cout << endl << "Please select the account type you are deleting:" << endl;
+					cout << "1. Checking Account" << endl;
+					cout << "2. Savings Account" << endl;
+					int accountType;
+					cin >> accountType;
+
+					if (accountType == 1 && noOfCustCheckAccs != 0) // checking account 
+					{
+						int custAcc;
+						int tracker = 0;
+						for (int j = 0; j < 20; j++) // displaying all checking accounts associated with customer account
+						{
+							if (&customerList[i] == checkingList[j].returnAddress())
+							{
+								tracker++;
+								cout << endl << "Checking Account #" << j + 1 << " :" << endl;
+								checkingList[j].PrintInfo();
+							}
+						}
+
+						if (tracker > 1) // if there is more than once checking account associated with customer ask teller to choose which account is going to be modified
+						{
+							cout << endl << "Which checking acccount?" << endl;
+							cin >> custAcc;
+							if (custAcc > tracker || custAcc < 1)
+							{
+								cout << endl << "Entered invalid account number!" << endl;
+								cout << "Exiting to main menu..." << endl;
+								break;
+							}
+							custAcc--;
+						}
+						else
+						{
+							custAcc = 0;
+						}
+
+						cout << endl << "Deleting account..." << endl;
+						checkingList[i].setAll(0, 0, nullptr, 0);
+						cout << "Account deleted!" << endl;
+						cout << "Returning to main menu..." << endl;
+						break;
+					}
+					else if (accountType == 2 && noOfCustSavAccs != 0) // saving account
+					{
+						int custAcc;
+						int tracker = 0;
+						for (int j = 0; j < 20; j++) // displaying all savings accounts associated with customer account
+						{
+							if (&customerList[i] == savingList[j].returnAddress())
+							{
+								tracker++;
+								cout << endl << "Saving Account #" << j + 1 << " :" << endl;
+								savingList[j].PrintInfo();
+							}
+						}
+
+						if (tracker > 1) // if there is more than once saving account associated with customer ask teller to choose which account is going to be modified
+						{
+							cout << endl << "Which savings acccount?" << endl;
+							cin >> custAcc;
+							if (custAcc > tracker || custAcc < 1)
+							{
+								cout << endl << "Entered invalid account number!" << endl;
+								cout << "Exiting to main menu..." << endl;
+								break;
+							}
+							custAcc--;
+						}
+						else
+						{
+							custAcc = 0;
+						}
+
+						cout << endl << "Deleting account..." << endl;
+						savingList[i].setAll(nullptr, 0, 0, 0);
+						cout << "Account deleted!" << endl;
+						cout << "Returning to main menu..." << endl;
+						break;
+					}
+					else if (accountType != 1 && accountType != 2)
+					{
+						cout << endl << "Entered invalid option!" << endl;
+						cout << "Exiting to main menu..." << endl;
+						break;
+					}
+					else
+					{
+						cout << endl << "Customer does not have an account of this type." << endl;
+						cout << "Exiting to main menu..." << endl;
+						break;
+					}
+				}
+			}
+
+			if (existingCustomer == false)
+			{
+				cout << endl << "No Exisiting Customer with that Email or Phone Number!";
+				cout << "Exiting to main menu..." << endl;
+			}
 		}
 		else if (userOpt == 6)
 		{
