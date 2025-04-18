@@ -38,7 +38,7 @@ void SavingAccount::payInterest()
 	if (getBalance() > 0)
 	{
 		double interestAccrued = getBalance() * interestRate;
-		depositMoney(interestAccrued);
+		DepositMoney(interestAccrued);
 	}
 }
 
@@ -46,6 +46,6 @@ void SavingAccount::transfer(double amount, SavingAccount* destinationAccount)
 {
 	if (getBalance() - amount >= 0.0)
 	{
-		destinationAccount->depositMoney(amount);
+		destinationAccount->DepositMoney(amount);
 	}
 }

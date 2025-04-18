@@ -403,7 +403,7 @@ int main()
 								savingList[custAcc].WithdrawMoney(amount);
 							}
 						}
-						else if (accountType != 1 || accountType != 2)
+						else if (accountType != 1 && accountType != 2)
 						{
 							cout << endl << "Entered invalid option!" << endl;
 							cout << "Exiting to main menu...";
@@ -418,12 +418,64 @@ int main()
 					}
 					else if (modifyOption == 3)
 					{
+						int accEditOpt;
+						cout << endl << "What would you like to edit?" << endl;
+						cout << "1. First Name" << endl;
+						cout << "2. Last Name" << endl;
+						cout << "3. Address" << endl;
+						cout << "4. Phone Number" << endl;
+						cout << "5. Email" << endl;
+						cin >> accEditOpt;
 
+						if (accEditOpt == 1)
+						{
+							string newFName;
+							cout << endl << "New First Name: ";
+							cin >> newFName;
+							customerList[i].setFname(newFName);
+						}
+						else if (accEditOpt == 2)
+						{
+							string newLName;
+							cout << endl << "New Last Name: ";
+							cin >> newLName;
+							customerList[i].setLname(newLName);
+						}
+						else if (accEditOpt == 3)
+						{
+							string newAddress;
+							cout << endl << "New Address: ";
+							cin >> newAddress;
+							customerList[i].setAddress(newAddress);
+						}
+						else if (accEditOpt == 4)
+						{
+							string newPhone;
+							cout << endl << "New Phone Number: ";
+							cin >> newPhone;
+							customerList[i].setPhone(newPhone);
+						}
+						else if (accEditOpt == 5)
+						{
+							string newEmail;
+							cout << endl << "New Email: ";
+							cin >> newEmail;
+							customerList[i].setEmail(newEmail);
+						}
+						else
+						{
+							cout << endl << "Entered invalid option." << endl;
+							cout << "Exiting to main menu..." << endl;
+						}
 					}
 					else if (modifyOption < 1 || modifyOption > 4)
 					{
 						cout << endl << "Entered invalid option. Exiting to main menu..." << endl;
 						break;
+					}
+					else
+					{
+						cout << endl << "Exiting to main menu..." << endl;
 					}
 				}
 			}
