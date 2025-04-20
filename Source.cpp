@@ -21,7 +21,8 @@ int main()
 	customerList[0].PrintInfo();
 	customerList[1].PrintInfo();
 	checkingList[0].setAll(0, 10000, &customerList[0], 100);
-	//checkingList[0].PrintInfo();
+	checkingList[0].PrintInfo();
+	checkingTracker++;
 
 	int userOpt;
 	cout << endl << "Welcome to Dolphin Bank!" << endl << endl;
@@ -250,6 +251,74 @@ int main()
 				if (existingCustomer == false)
 				{
 					cout << endl << "Customer not found! Cannot display account information." << endl << endl;
+				}
+			}
+			else
+			{
+				int displayOpt;
+				cout << endl << "Which would you like to display?" << endl;
+				cout << "1. Customers" << endl;
+				cout << "2. Checking Accounts" << endl;
+				cout << "3. Saving Accounts" << endl;
+				cin >> displayOpt;
+
+				if (displayOpt == 1)
+				{
+					if (customerTracker > 0)
+					{
+						for (int i = 0; i <= customerTracker; i++)
+						{
+							customerList[i].PrintInfo();
+						}
+					}
+					else if(customerTracker == 0)
+					{
+						customerList[0].PrintInfo();
+					}
+					else
+					{
+						cout << endl << "No Customers Found." << endl;
+						cout << "Exiting to Main Menu..." << endl;
+					}
+				}
+				else if (displayOpt == 2)
+				{
+					if (checkingTracker > 0)
+					{
+						for (int i = 0; i <= checkingTracker; i++)
+						{
+							checkingList[i].PrintInfo();
+						}
+					}
+					else if (checkingTracker == 0)
+					{
+						checkingList[0].PrintInfo();
+					}
+					else
+					{
+						cout << endl << "No Checking Accounts Found." << endl;
+						cout << "Exiting to Main Menu..." << endl;
+					}
+				}
+				else if (displayOpt == 3)
+				{
+					if (savingTracker > 0)
+					{
+						for (int i = 0; i <= savingTracker; i++)
+						{
+							savingList[i].PrintInfo();
+						}
+					}
+					else if (savingTracker == 0)
+					{
+						savingList[0].PrintInfo();
+					}
+					else
+					{
+						cout << endl << "No Saving Accounts Found." << endl;
+						cout << "Exiting to Main Menu..." << endl;
+					}
+					
 				}
 			}
 		}
@@ -635,81 +704,79 @@ int main()
 		}
 		else if (userOpt == 6)
 		{
-	string custEmail;
-string custPhone;
-int modifyOption;
-bool existingCustomer = false;
-bool transferExistingCustomer = false;
-int custTracker;
-int tCustTracker;
+			string custEmail;
+			string custPhone;
+			int modifyOption;
+			bool existingCustomer = false;
+			bool transferExistingCustomer = false;
+			int custTracker;
+			int tCustTracker;
 
-cout << "Please Input Customer Email: ";
-cin.ignore();
-getline(cin, custEmail);
+			cout << "Please Input Customer Email: ";
+			cin.ignore();
+			getline(cin, custEmail);
 
-cout << "Please Input Customer Phone Number:";
-getline(cin, custPhone);
+			cout << "Please Input Customer Phone Number:";
+			getline(cin, custPhone);
 
-for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
-{
-	if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
-	{
-		cout << endl << "Customer Found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
-		existingCustomer = true;
-		int noOfCustSavAccs = 0;
-		custTracker = i;
-
-		for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with customer account
-		{
-			if (&customerList[i] == savingList[j].returnAddress())
+			for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
 			{
-				noOfCustSavAccs++;
-				cout << endl << "Saving Account #" << noOfCustSavAccs << " :" << endl;
-			}
-		}
-	}
-
-
-}
-	cout << "Please Enter the Email or Phone number of the Account You want to Transfer to:" 
-	cout << "Please Input Email: ";
-	cin.ignore();
-	getline(cin, custEmail);
-	cout << "Please Input Phone Number:";
-	getline(cin, custPhone);
-
-
-
-
-	for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
-	{
-		if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
-		{
-			cout << endl << "Customer Found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
-			transferExistingCustomer = true;
-			int tNoOfCustSavAccs = 0;
-			tCustTracker = i;
-
-			for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with transfer customer account
-			{
-				if (&customerList[i] == savingList[j].returnAddress())
+				if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
 				{
-					tNoOfCustSavAccs++;
+					cout << endl << "Customer Found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
+					existingCustomer = true;
+					int noOfCustSavAccs = 0;
+					custTracker = i;
+
+					for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with customer account
+					{
+						if (&customerList[i] == savingList[j].returnAddress())
+						{
+							noOfCustSavAccs++;
+							cout << endl << "Saving Account #" << noOfCustSavAccs << " :" << endl;
+						}
+					}
+				}
+
+
+			}
+			cout << "Please Enter the Email or Phone number of the Account You want to Transfer to:";
+			cout << "Please Input Email: ";
+			cin.ignore();
+			getline(cin, custEmail);
+			cout << "Please Input Phone Number:";
+			getline(cin, custPhone);
+
+
+			for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
+			{
+				if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
+				{
+					cout << endl << "Customer Found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
+					transferExistingCustomer = true;
+					int tNoOfCustSavAccs = 0;
+					tCustTracker = i;
+
+					for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with transfer customer account
+					{
+						if (&customerList[i] == savingList[j].returnAddress())
+						{
+							tNoOfCustSavAccs++;
+						}
+					}
+					if (tNoOfCustSavAccs >= 1)
+					{
+						cout << "*Transfer User Savings Account Found*" << endl;
+
+						cout << "How much money do you want to transfer:" << endl;
+					}
+					else
+					{
+						cout << "*Transfer User Savings Account Not Found*" << endl;
+
+					}
 				}
 			}
-			if (tNoOfCustSavAccs >= 1)
-			{
-				cout << "*Transfer User Savings Account Found*" << endl;
-
-				cout << "How much money do you want to transfer:" << endl;
-			}
-			else
-			{
-				cout << "*Transfer User Savings Account Not Found*" << endl;
-
-			}
-		}
-
 
 		}
 		else
