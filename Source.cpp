@@ -704,81 +704,176 @@ int main()
 		}
 		else if (userOpt == 6)
 		{
-			string custEmail;
-			string custPhone;
-			int modifyOption;
-			bool existingCustomer = false;
-			bool transferExistingCustomer = false;
-			int custTracker;
-			int tCustTracker;
+	string custEmail;
+string custPhone;
+int modifyOption;
+bool existingCustomer = false;
+bool transferExistingCustomer = false;
+int custTracker;
+int tCustTracker;
 
-			cout << "Please Input Customer Email: ";
-			cin.ignore();
-			getline(cin, custEmail);
 
-			cout << "Please Input Customer Phone Number:";
-			getline(cin, custPhone);
 
-			for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
+cout << "Please Input Customer Email: ";
+cin.ignore();
+getline(cin, custEmail);
+
+cout << "Please Input Customer Phone Number:";
+getline(cin, custPhone);
+
+for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
+{
+	if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
+	{
+		cout << endl << "Customer Found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
+		existingCustomer = true;
+		int noOfCustSavAccs = 0;
+		custTracker = i;
+
+		for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with customer account
+		{
+			if (&customerList[i] == savingList[j].returnAddress())
 			{
-				if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
-				{
-					cout << endl << "Customer Found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
-					existingCustomer = true;
-					int noOfCustSavAccs = 0;
-					custTracker = i;
-
-					for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with customer account
-					{
-						if (&customerList[i] == savingList[j].returnAddress())
-						{
-							noOfCustSavAccs++;
-							cout << endl << "Saving Account #" << noOfCustSavAccs << " :" << endl;
-						}
-					}
-				}
-
-
+				noOfCustSavAccs++;
+				cout << endl << "Saving Account #" << noOfCustSavAccs << " :" << endl;
+				savingList[j].PrintInfo();
 			}
-			cout << "Please Enter the Email or Phone number of the Account You want to Transfer to:";
-			cout << "Please Input Email: ";
-			cin.ignore();
-			getline(cin, custEmail);
-			cout << "Please Input Phone Number:";
-			getline(cin, custPhone);
-
-
-			for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
-			{
-				if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) // found existing customer 
-				{
-					cout << endl << "Customer Found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
-					transferExistingCustomer = true;
-					int tNoOfCustSavAccs = 0;
-					tCustTracker = i;
-
-					for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with transfer customer account
-					{
-						if (&customerList[i] == savingList[j].returnAddress())
-						{
-							tNoOfCustSavAccs++;
-						}
-					}
-					if (tNoOfCustSavAccs >= 1)
-					{
-						cout << "*Transfer User Savings Account Found*" << endl;
-
-						cout << "How much money do you want to transfer:" << endl;
-					}
-					else
-					{
-						cout << "*Transfer User Savings Account Not Found*" << endl;
-
-					}
-				}
-			}
-
 		}
+	}
+}
+if (!existingCustomer) {
+	cout << "Sender customer not found. Transfer aborted." << endl;
+	break;
+}
+
+// Check for sender savings accounts again this isnt efficient but i dont want to change the code that works.
+
+int noOfSenderAcc = 0;
+for (int j = 0; j < 20; j++) {
+	if (&customerList[custTracker] == savingList[j].returnAddress()) {
+		noOfSenderAcc++;
+	}
+}
+
+if (senderAccCount == 0) {
+	cout << "Sender has no savings accounts. Transfer aborted." << endl;
+	break;
+}
+
+
+
+
+
+	cout << "Please Enter the Email or Phone number of the Account You want to Transfer to:" << endl;
+	cout << "Please Input Email: ";
+	getline(cin, custEmail);
+	cout << "Please Input Phone Number:";
+	getline(cin, custPhone);
+
+
+
+
+	int tNoOfCustSavAccs = 0;
+	for (int i = 0; i < 20; i++) {
+		if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) {
+			transferExistingCustomer = true;
+			tCustTracker = i;
+	
+			for (int j = 0; j < 20; j++) {
+				if (&customerList[i] == savingList[j].returnAddress()) {
+					tNoOfCustSavAccs++;
+				}
+			}
+			break;
+		}
+	}
+	
+	if (!transferExistingCustomer) 
+	{
+		cout << "Recipient customer not found! Transfer aborted." << endl;
+		break;
+	}
+	
+	if (tNoOfCustSavAccs >= 1) 
+	{
+		cout << "*Transfer User Savings Account Found*" << endl;
+		
+		int senderAccIndex = -1;
+		int senderDisplayCount = 0;
+		
+		cout << "Select sender savings account:\n";
+		for (int j = 0; j < 20; j++) {
+			if (&customerList[custTracker] == savingList[j].returnAddress()) {
+				senderDisplayCount++;
+				cout << senderDisplayCount;
+				savingList[j].PrintInfo();
+			}
+		}
+		
+		int senderChoice;
+		cout << "Enter sender account number (1-" << senderDisplayCount << "): ";
+		cin >> senderChoice;
+		
+		if (senderChoice < 1 || senderChoice > senderDisplayCount) {
+			cout << "Invalid sender account choice. Transfer aborted.\n";
+			break;
+		}
+
+		int matchCounter = 0;
+		for (int i = 0; i < 20; i++)
+		{
+
+			if (&customerList[custTracker] == savingList[i].returnAddress())
+			{
+				matchCounter++; // this is the Nth account for this sender
+		
+				// If user selected this one exaple they selected 2: save its real index
+				if (matchCounter == senderChoice)
+				{
+					senderAccIndex = i;  // save the true index
+					break;
+				}
+			}
+		}
+
+		
+		double transferAmount;
+		cout << "How much money do you want to transfer:" << endl;
+		cin >> transferAmount;
+
+		// im thinking maybe just put the money from the chosen savings account into the first savings account from the transfer person
+		
+		int recipientAccIndex = -1;
+		for (int j = 0; j < 20; j++) 
+		{
+			if (&customerList[tCustTracker] == savingList[j].returnAddress()) 
+			{
+				recipientAccIndex = j;
+				break;
+			}
+		}
+		
+		
+		//It is litterally almost done the only thing it needs is to do the transfer and check if it worked and if the funds are there the thing
+		// is idk which thing has the transffer functiion or if i should do withdraw and deposit basically and then
+		
+		
+		if (savingList[senderAccIndex].WithdrawMoney(transferAmount)) {
+			savingList[recipientAccIndex].DepositMoney(transferAmount);
+			cout << "Transfer successful!" << endl;
+		} else {
+			cout << "Transfer failed. Sender has insufficient funds." << endl;
+		}
+
+
+
+	} 
+	else 
+	{
+		cout << "*Transfer User Savings Account Not Found*" << endl;
+		break;
+	}
+	
 		else
 		{
 			cout << "Error invalid option entered!" << endl;
