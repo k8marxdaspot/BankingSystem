@@ -75,11 +75,11 @@ bool Customer::operator==(Customer other)
 
 void Customer::PrintInfo()
 {
-	cout << setw(15) << "First Name" << setw(15) << "Last Name" << setw(15) << "Address" << setw(20) << "Phone Number" << setw(20) << "Email" << endl;
+	cout << endl << left << setw(15) << "First Name" << setw(15) << "Last Name" << setw(20) << "Address" << setw(20) << "Phone Number" << setw(20) << "Email" << endl;
 	for (int i = 0; i < 100; i++)
 	{
 		cout << "=";
 	}
 	cout << endl;
-	cout << setw(15) << fname << setw(15) << lname << setw(20) << address << setw(15) << phone << setw(28) << email << endl;
+	cout << left << setw(15) << fname << setw(15) << lname << setw(20) << address << setw(20) << phone << setw(28) << email << endl;
 }
