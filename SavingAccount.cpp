@@ -46,6 +46,14 @@ void SavingAccount::transfer(double amount, SavingAccount* destinationAccount)
 {
 	if (getBalance() - amount >= 0.0)
 	{
+		WithdrawMoney(amount);
 		destinationAccount->DepositMoney(amount);
+		cout << endl << "Successful Transfer" << endl;
+	}
+	else
+	{
+		WithdrawMoney(amount);
+		cout << endl << "Transfer failed!" << endl;
+		cout << "Returning to main menu..." << endl;
 	}
 }
