@@ -35,6 +35,8 @@ int main()
 		checkingTracker++;
 		savingList[0].setAll(&customerList[0], 0, 8000, 0.01);
 		savingList[1].setAll(&customerList[1], 1, 20000, 0.05);
+		savingList[2].setAll(&customerList[0], 2, 1000, 0.005);
+		savingTracker++;
 		savingTracker++;
 		savingTracker++;
 
@@ -45,6 +47,7 @@ int main()
 		savingList[0].PrintInfo();
 		customerList[1].PrintInfo();
 		savingList[1].PrintInfo();
+		savingList[2].PrintInfo();
 
 
 		int userOpt;
@@ -730,17 +733,16 @@ int main()
 				int modifyOption;
 				bool existingCustomer = false;
 				bool transferExistingCustomer = false;
-				int custTracker;
-				int tCustTracker;
+				int custTracker = -1;
+				int tCustTracker = -1;
 				int noOfSenderAcc = 0;
 				int tNoOfCustSavAccs = 0;
 
 				cout << "Please Input Customer Email: ";
-				cin.ignore();
-				getline(cin, custEmail);
+				cin >> custEmail;
 
 				cout << "Please Input Customer Phone Number:";
-				getline(cin, custPhone);
+				cin >> custPhone;
 
 				for (int i = 0; i < 20; i++) // search for existing customer with matching phone number or email
 				{
@@ -764,28 +766,26 @@ int main()
 				}
 				if (!existingCustomer) {
 					cout << "Sender customer not found. Transfer aborted." << endl;
-					break;
 				}
 
 				// Check for sender savings accounts again this isnt efficient but i dont want to change the code that works.
 
-			/*	int noOfSenderAcc = 0;
+				int newNoOfSenderAcc = 0;
 				for (int j = 0; j < 20; j++) {
 					if (&customerList[custTracker] == savingList[j].returnAddress()) {
-						noOfSenderAcc++;
+						newNoOfSenderAcc++;
 					}
-				}*/
+				}
 
-				if (noOfSenderAcc == 0) {
+				if (newNoOfSenderAcc == 0) {
 					cout << "Sender has no savings accounts. Transfer aborted." << endl;
-					break;
 				}
 
 				cout << "Please Enter the Email or Phone number of the Account You want to Transfer to:" << endl;
 				cout << "Please Input Email: ";
-				getline(cin, custEmail);
+				cin >> custEmail;
 				cout << "Please Input Phone Number:";
-				getline(cin, custPhone);
+				cin >> custPhone;
 
 				
 				for (int i = 0; i < 20; i++) {
@@ -872,21 +872,24 @@ int main()
 					// is idk which thing has the transffer functiion or if i should do withdraw and deposit basically and then
 
 
-					/*if (savingList[senderAccIndex].WithdrawMoney(transferAmount)) {
-						savingList[recipientAccIndex].DepositMoney(transferAmount);
+					/*if (savingList[senderAccIndex].WithdrawMoney(transferAmount) && savingList[recipientAccIndex].DepositMoney(transferAmount))
+					{
 						cout << "Transfer successful!" << endl;
 					}
-					else {
-						cout << "Transfer failed. Sender has insufficient funds." << endl;
+					else
+					{
+						cout << "Transfer failed" << endl;
+						cout << "Returning to main menu..." << endl;
 					}*/
-
+					savingList[senderAccIndex].transfer(transferAmount, &savingList[recipientAccIndex]);
+					savingList[senderAccIndex].PrintInfo();
+					savingList[recipientAccIndex].PrintInfo();
 
 
 				}
 				else
 				{
 					cout << "*Transfer User Savings Account Not Found*" << endl;
-					break;
 				}
 			}
 			else
