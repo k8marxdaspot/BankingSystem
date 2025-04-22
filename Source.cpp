@@ -23,6 +23,7 @@ int main()
 	cin >> username;
 	cout << "Enter password: ";
 	cin >> password;
+
 	if (test.correctLogin(username, password))
 	{
 		customerList[0].setAll("Bobber", "Chang", "51 stone street", "904-614-7571", "bobberChang@gmail.com");
@@ -393,7 +394,7 @@ int main()
 						cout << "Please enter option (1-4): ";
 						cin >> modifyOption;
 
-						if (modifyOption == 1 || modifyOption == 2) // don't necessarily think it's a great idea to have this as a loop. bank teller wants to committ one action and once that modification is done should go back to main menu not loop
+						if (modifyOption == 1 || modifyOption == 2) // don't necessarily think it's a great idea to have this as a loop. bank teller wants to commit one action and once that modification is done should go back to main menu not loop
 						{
 							if (noOfCustCheckAccs == 0 && noOfCustSavAccs == 0)
 							{
@@ -583,7 +584,6 @@ int main()
 			{
 				string custEmail;
 				string custPhone;
-				int modifyOption;
 				bool existingCustomer = false;
 
 				cout << "Please input customer email: ";
@@ -726,19 +726,16 @@ int main()
 					cout << "Exiting to main menu..." << endl;
 				}
 			}
-			else if (userOpt == 6)
+			else if (userOpt == 6) // continuing to nest this option was a horrible idea and now its a headache to read over. writing down helps to keep track
 			{
 				string custEmail;
 				string custPhone;
-				int modifyOption;
 				bool existingCustomer = false;
 				bool transferExistingCustomer = false;
-				int custTracker = -1;
-				int tCustTracker = -1;
-				int noOfSenderAcc = 0;
-				int tNoOfCustSavAccs = 0;
+				int tCustTracker = 0;
+				
 
-				cout << "Please Input Customer Email: ";
+				cout << endl << "Please Input Customer Email: ";
 				cin >> custEmail;
 
 				cout << "Please Input Customer Phone Number:";
@@ -751,150 +748,110 @@ int main()
 						cout << endl << "Customer Found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
 						existingCustomer = true;
 
-						custTracker = i;
-
-						for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with customer account
+						int senderDisplayCount = 0;
+						int senderAccounts[20];
+						for (int j = 0; j < 20; j++) // searching for savings accounts associated with sender account
 						{
 							if (&customerList[i] == savingList[j].returnAddress())
 							{
-								noOfSenderAcc++;
-								cout << endl << "Saving Account #" << noOfSenderAcc << " :" << endl;
+								senderAccounts[senderDisplayCount] = j;
+								cout << endl << "Saving Account #" << senderDisplayCount + 1 << " :" << endl;
 								savingList[j].PrintInfo();
+								senderDisplayCount++;
 							}
 						}
-					}
-				}
-				if (!existingCustomer) {
-					cout << "Sender customer not found. Transfer aborted." << endl;
-				}
 
-				// Check for sender savings accounts again this isnt efficient but i dont want to change the code that works.
-
-				int newNoOfSenderAcc = 0;
-				for (int j = 0; j < 20; j++) {
-					if (&customerList[custTracker] == savingList[j].returnAddress()) {
-						newNoOfSenderAcc++;
-					}
-				}
-
-				if (newNoOfSenderAcc == 0) {
-					cout << "Sender has no savings accounts. Transfer aborted." << endl;
-				}
-
-				cout << "Please Enter the Email or Phone number of the Account You want to Transfer to:" << endl;
-				cout << "Please Input Email: ";
-				cin >> custEmail;
-				cout << "Please Input Phone Number:";
-				cin >> custPhone;
-
-				
-				for (int i = 0; i < 20; i++) {
-					if (customerList[i].getEmail() == custEmail || customerList[i].getPhone() == custPhone) {
-						transferExistingCustomer = true;
-						tCustTracker = i;
-
-						for (int j = 0; j < 20; j++) {
-							if (&customerList[i] == savingList[j].returnAddress()) {
-								tNoOfCustSavAccs++;
-							}
-						}
-						//break;
-					}
-				}
-
-				if (!transferExistingCustomer)
-				{
-					cout << "Recipient customer not found! Transfer aborted." << endl;
-					break;
-				}
-
-				if (tNoOfCustSavAccs >= 1)
-				{
-					cout << "*Transfer User Savings Account Found*" << endl;
-
-					int senderAccIndex = -1;
-					int senderDisplayCount = 0;
-
-					cout << "Select sender savings account:\n";
-					for (int j = 0; j < 20; j++) {
-						if (&customerList[custTracker] == savingList[j].returnAddress()) {
-							senderDisplayCount++;
-							cout << senderDisplayCount;
-							savingList[j].PrintInfo();
-						}
-					}
-
-					int senderChoice;
-					cout << "Enter sender account number (1-" << senderDisplayCount << "): ";
-					cin >> senderChoice;
-
-					if (senderChoice < 1 || senderChoice > senderDisplayCount) {
-						cout << "Invalid sender account choice. Transfer aborted.\n";
-						break;
-					}
-
-					int matchCounter = 0;
-					for (int i = 0; i < 20; i++)
-					{
-
-						if (&customerList[custTracker] == savingList[i].returnAddress())
+						if (senderDisplayCount == 0) // if customer has no savings end transfer and exit to main menu
 						{
-							matchCounter++; // this is the Nth account for this sender
+							cout << endl << "Sender has no savings accounts. Transfer aborted." << endl;
+							cout << "Exiting to main menu..." << endl;
+							break;
+						}
 
-							// If user selected this one exaple they selected 2: save its real index
-							if (matchCounter == senderChoice)
+						string transferEmail;
+						string transferPhone;
+						cout << endl << "Now Please Enter Information for the Account the Customer Wishes to Transfer Funds To" << endl;
+						cout << "Please Input Email: ";
+						cin >> transferEmail;
+						cout << "Please Input Phone Number:";
+						cin >> transferPhone;
+
+						for (int j = 0; j < 20; j++) // searching for customer and savings account we want to transfer money to
+						{
+							if (customerList[j].getEmail() == transferEmail || customerList[j].getPhone() == transferPhone)
 							{
-								senderAccIndex = i;  // save the true index
-								break;
+								transferExistingCustomer = true;
+								cout << endl << "Customer Found: " << customerList[j].getFname() << " " << customerList[j].getLname() << endl;
+
+								int transferDisplayCount = 0;
+								int transferAccounts[20];
+								for (int k = 0; k < 20; k++) {
+									if (&customerList[j] == savingList[k].returnAddress()) 
+									{
+										transferAccounts[transferDisplayCount] = k;
+										cout << endl << "Saving Account #" << transferDisplayCount + 1 << " :" << endl;
+										savingList[k].PrintInfo();
+										transferDisplayCount++;
+									}
+								}
+
+								if (transferDisplayCount == 0)
+								{
+									cout << endl << "Acccount you want to transfer to has no associated savings accounts." << endl;
+									cout << "Exiting to main menu..." << endl;
+									break;
+								}
+
+								cout << endl << "*Transfer User Savings Account Found*" << endl;
+
+								int senderChoice;
+								cout << endl << "Enter sender account number you wish to transfer FROM: ";
+								cin >> senderChoice;
+
+								if (senderChoice > senderDisplayCount || senderChoice < 1) {
+									cout << endl << "Invalid sender account choice. Transfer aborted." << endl;
+									cout << "Returing to main menu..." << endl;
+									break;
+								}
+								int senderAccIndex = senderAccounts[senderChoice-1];
+
+								int transferChoice;
+								cout << endl << "Enter the transfer account number you wish to transfer TO: ";
+								cin >> transferChoice;
+
+								if (transferChoice > transferDisplayCount || transferChoice < 1)
+								{
+									cout << endl << "Invalid transfer account choice. Transfer aborted." << endl;
+									cout << "Returing to main menu..." << endl;
+									break;
+								}
+								int transferAccIndex = transferAccounts[transferChoice-1];
+
+								double transferAmount;
+								cout << endl << "How much money do you want to transfer:" << endl;
+								cin >> transferAmount;
+
+								savingList[senderAccIndex].transfer(transferAmount, &savingList[transferAccIndex]);
+								savingList[senderAccIndex].PrintInfo();
+								savingList[transferAccIndex].PrintInfo();
 							}
 						}
-					}
-
-
-					double transferAmount;
-					cout << "How much money do you want to transfer:" << endl;
-					cin >> transferAmount;
-
-					// im thinking maybe just put the money from the chosen savings account into the first savings account from the transfer person
-
-					int recipientAccIndex = -1;
-					for (int j = 0; j < 20; j++)
-					{
-						if (&customerList[tCustTracker] == savingList[j].returnAddress())
+						if (transferExistingCustomer == false)
 						{
-							recipientAccIndex = j;
+							cout << endl << "Recipient customer not found! Transfer aborted." << endl;
 							break;
 						}
 					}
-
-
-					//It is litterally almost done the only thing it needs is to do the transfer and check if it worked and if the funds are there the thing
-					// is idk which thing has the transffer functiion or if i should do withdraw and deposit basically and then
-
-
-					/*if (savingList[senderAccIndex].WithdrawMoney(transferAmount) && savingList[recipientAccIndex].DepositMoney(transferAmount))
+					else if (existingCustomer == false)
 					{
-						cout << "Transfer successful!" << endl;
+						cout << endl << "Sender customer not found. Transfer aborted." << endl;
+						cout << "Exiting to main menu..." << endl;
 					}
-					else
-					{
-						cout << "Transfer failed" << endl;
-						cout << "Returning to main menu..." << endl;
-					}*/
-					savingList[senderAccIndex].transfer(transferAmount, &savingList[recipientAccIndex]);
-					savingList[senderAccIndex].PrintInfo();
-					savingList[recipientAccIndex].PrintInfo();
-
-
-				}
-				else
-				{
-					cout << "*Transfer User Savings Account Not Found*" << endl;
 				}
 			}
 			else
 			{
-				cout << "Error invalid option entered!" << endl;
+				cout << endl << "Error invalid option entered!" << endl;
 				cout << "Please make sure to enter an option from 1 to 7!" << endl;
 			}
 
@@ -913,9 +870,10 @@ int main()
 	}
 	else
 	{
-		cout << endl << "Failed login!" << endl;
+		cout << "Failed Login." << endl;
 	}
-	
 
-	
+
+	system("pause");
+	return 0;
 }

@@ -108,6 +108,8 @@ void Account::WithdrawMoney(double w)
 
 void Account::PrintInfo()
 {
+	(*accountCustomer).PrintInfo();
+	cout << endl;
 	cout << setw(5) << "ID" << setw(10) << "Balance" << setw(20) << "Withdrawals Made" << setw(15) << "Deposits Made" << endl;
 	for (int i = 0; i < 50; i++)
 	{
@@ -115,8 +117,6 @@ void Account::PrintInfo()
 	}
 	cout << endl;
 	cout << setw(5) << id << setw(10) << balance << setw(20) << withdrawalCounter << setw(15) << depositsCounter << endl;
-	(*accountCustomer).PrintInfo();
-	cout << endl;
 }
 
 Customer* Account::returnAddress()
