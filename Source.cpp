@@ -733,8 +733,10 @@ int main()
 				bool existingCustomer = false;
 				bool transferExistingCustomer = false;
 				int tCustTracker = 0;
-				
-				getline(cin, custEmail);
+
+
+				cout << endl << "Please Input Customer Email: ";
+				cin >> custEmail;
 
 				cout << "Please Input Customer Phone Number:";
 				cin >> custPhone;
@@ -757,14 +759,15 @@ int main()
 								savingList[j].PrintInfo();
 								senderDisplayCount++;
 							}
-					break;
+						}
+
 						if (senderDisplayCount == 0) // if customer has no savings end transfer and exit to main menu
 						{
 							cout << endl << "Sender has no savings accounts. Transfer aborted." << endl;
 							cout << "Exiting to main menu..." << endl;
 							break;
 						}
-					cout << "Sender has no savings accounts. Transfer aborted." << endl;
+
 						string transferEmail;
 						string transferPhone;
 						cout << endl << "Now Please Enter Information for the Account the Customer Wishes to Transfer Funds To" << endl;
@@ -772,9 +775,6 @@ int main()
 						cin >> transferEmail;
 						cout << "Please Input Phone Number:";
 						cin >> transferPhone;
-				getline(cin, custEmail);
-				cout << "Please Input Phone Number:";
-				getline(cin, custPhone);
 
 						for (int j = 0; j < 20; j++) // searching for customer and savings account we want to transfer money to
 						{
@@ -786,7 +786,7 @@ int main()
 								int transferDisplayCount = 0;
 								int transferAccounts[20];
 								for (int k = 0; k < 20; k++) {
-									if (&customerList[j] == savingList[k].returnAddress()) 
+									if (&customerList[j] == savingList[k].returnAddress())
 									{
 										transferAccounts[transferDisplayCount] = k;
 										cout << endl << "Saving Account #" << transferDisplayCount + 1 << " :" << endl;
@@ -813,7 +813,7 @@ int main()
 									cout << "Returing to main menu..." << endl;
 									break;
 								}
-								int senderAccIndex = senderAccounts[senderChoice-1];
+								int senderAccIndex = senderAccounts[senderChoice - 1];
 
 								int transferChoice;
 								cout << endl << "Enter the transfer account number you wish to transfer TO: ";
@@ -825,7 +825,7 @@ int main()
 									cout << "Returing to main menu..." << endl;
 									break;
 								}
-								int transferAccIndex = transferAccounts[transferChoice-1];
+								int transferAccIndex = transferAccounts[transferChoice - 1];
 
 								double transferAmount;
 								cout << endl << "How much money do you want to transfer:" << endl;
@@ -838,15 +838,15 @@ int main()
 						}
 						if (transferExistingCustomer == false)
 						{
+							cout << endl << "Recipient customer not found! Transfer aborted." << endl;
+							break;
+						}
 					}
 					else if (existingCustomer == false)
 					{
 						cout << endl << "Sender customer not found. Transfer aborted." << endl;
 						cout << "Exiting to main menu..." << endl;
 					}
-				{
-					cout << "*Transfer User Savings Account Not Found*" << endl;
-					break;
 				}
 			}
 			else
