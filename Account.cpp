@@ -117,6 +117,8 @@ void Account::PrintInfo()
 	}
 	cout << endl;
 	cout << setw(5) << id << setw(10) << balance << setw(20) << withdrawalCounter << setw(15) << depositsCounter << endl;
+	/*(*accountCustomer).PrintInfo();*/
+	cout << endl;
 }
 
 Customer* Account::returnAddress()

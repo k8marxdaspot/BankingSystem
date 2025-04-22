@@ -734,9 +734,7 @@ int main()
 				bool transferExistingCustomer = false;
 				int tCustTracker = 0;
 				
-
-				cout << endl << "Please Input Customer Email: ";
-				cin >> custEmail;
+				getline(cin, custEmail);
 
 				cout << "Please Input Customer Phone Number:";
 				cin >> custPhone;
@@ -759,15 +757,14 @@ int main()
 								savingList[j].PrintInfo();
 								senderDisplayCount++;
 							}
-						}
-
+					break;
 						if (senderDisplayCount == 0) // if customer has no savings end transfer and exit to main menu
 						{
 							cout << endl << "Sender has no savings accounts. Transfer aborted." << endl;
 							cout << "Exiting to main menu..." << endl;
 							break;
 						}
-
+					cout << "Sender has no savings accounts. Transfer aborted." << endl;
 						string transferEmail;
 						string transferPhone;
 						cout << endl << "Now Please Enter Information for the Account the Customer Wishes to Transfer Funds To" << endl;
@@ -775,6 +772,9 @@ int main()
 						cin >> transferEmail;
 						cout << "Please Input Phone Number:";
 						cin >> transferPhone;
+				getline(cin, custEmail);
+				cout << "Please Input Phone Number:";
+				getline(cin, custPhone);
 
 						for (int j = 0; j < 20; j++) // searching for customer and savings account we want to transfer money to
 						{
@@ -838,15 +838,15 @@ int main()
 						}
 						if (transferExistingCustomer == false)
 						{
-							cout << endl << "Recipient customer not found! Transfer aborted." << endl;
-							break;
-						}
 					}
 					else if (existingCustomer == false)
 					{
 						cout << endl << "Sender customer not found. Transfer aborted." << endl;
 						cout << "Exiting to main menu..." << endl;
 					}
+				{
+					cout << "*Transfer User Savings Account Not Found*" << endl;
+					break;
 				}
 			}
 			else
