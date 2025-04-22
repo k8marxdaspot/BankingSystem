@@ -1,8 +1,9 @@
 #include "CheckingAccount.h"
 #include "SavingAccount.h"
+#include "Password.h"
 #include <string>
 #include <iostream>
-#include "Password.h"
+#include <ctime>
 using namespace std;
 
 
@@ -31,7 +32,7 @@ int main()
 	}
 	else
 	{
-		while (!test.correctLogin(username, password) && numberWrongAttempts < 2)
+		while (!test.correctLogin(username, password))
 		{
 			numberWrongAttempts++;
 			cout << endl << "Failed Login." << endl;
@@ -39,9 +40,20 @@ int main()
 			{
 				cout << "You have " << 3 - numberWrongAttempts << " more attempts before the system times you out!" << endl;
 			}
-			else
+			else if (numberWrongAttempts == 2)
 			{
 				cout << "You have 1 more attempt before the system times you out!" << endl; // grammar fix for singular attempt
+			}
+
+			if (numberWrongAttempts == 3)
+			{
+				cout << endl << "You have been timed out for 10 seconds due to bad login attempts." << endl;
+				time_t start = time(nullptr);
+				while (difftime(time(nullptr), start) < 10.0)
+				{
+				
+				}
+				numberWrongAttempts = 0;
 			}
 
 			cout << endl;
@@ -52,11 +64,7 @@ int main()
 			cin >> password;
 		}
 	}
-	if (numberWrongAttempts == 2)
-	{
-		cout << endl << "You have been timed out of the system due to bad login attempts." << endl;
-		cout << "Bye Bye..." << endl << endl;
-	}
+	
 
 	if (test.correctLogin(username, password))
 	{
