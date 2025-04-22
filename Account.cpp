@@ -80,7 +80,7 @@ void Account::DepositMoney(double a)
 {
 	if (a >= 0)
 	{
-		balance += a;
+		balance = balance + a;
 		depositsCounter++;
 		cout << endl << "DEPOSIT SUCCESSFUL!" << endl;
 		cout << "ACCOUNT BALANCE NOW: $" << balance << endl;
@@ -115,7 +115,7 @@ void Account::PrintInfo()
 	}
 	cout << endl;
 	cout << setw(5) << id << setw(10) << balance << setw(20) << withdrawalCounter << setw(15) << depositsCounter << endl;
-	/*(*accountCustomer).PrintInfo();*/
+	(*accountCustomer).PrintInfo();
 	cout << endl;
 }
 
