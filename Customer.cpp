@@ -60,19 +60,6 @@ void Customer::setAll(string _fname, string _lname, string _address, string _pho
 	phone = _phone;
 	email = _email;
 }
-
-bool Customer::operator==(Customer other)
-{
-	if ((phone == other.getPhone() && (email == other.getEmail())))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
 void Customer::PrintInfo()
 {
 	cout << endl << left << setw(15) << "First Name" << setw(15) << "Last Name" << setw(20) << "Address" << setw(20) << "Phone Number" << setw(20) << "Email" << endl;

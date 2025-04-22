@@ -22,7 +22,6 @@ public:
 	string getPhone() const;
 	string getEmail() const;
 	void setAll(string _fname, string _lname, string _address, string _phone, string _email);
-	bool operator==(Customer other);
 	void PrintInfo();
 };
 #endif // !CUSTOMER

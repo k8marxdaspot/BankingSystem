@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <ctime>
+#include <fstream>
 using namespace std;
 
 
@@ -77,20 +78,20 @@ int main()
 		checkingTracker++;
 		checkingTracker++;
 		savingList[0].setAll(&customerList[0], 0, 8000, 0.01);
-		savingList[1].setAll(&customerList[1], 1, 20000, 0.05);
 		savingList[2].setAll(&customerList[0], 2, 1000, 0.005);
+		savingList[1].setAll(&customerList[1], 1, 20000, 0.05);
 		savingTracker++;
 		savingTracker++;
 		savingTracker++;
 
 		cout << "Prior to running menu we provided these customers and accounts..." << endl;
-		customerList[0].PrintInfo();
+		/*customerList[0].PrintInfo();*/
 		checkingList[0].PrintInfo();
 		checkingList[1].PrintInfo();
 		savingList[0].PrintInfo();
-		customerList[1].PrintInfo();
-		savingList[1].PrintInfo();
+		/*customerList[1].PrintInfo();*/
 		savingList[2].PrintInfo();
+		savingList[1].PrintInfo();
 
 
 		int userOpt;
@@ -120,7 +121,16 @@ int main()
 				double custOverdraftLimit;
 				Customer* cPtr = nullptr;
 				bool existingCustomer = false;
-				checkingTracker++;
+				if (checkingTracker < 19)
+				{
+					checkingTracker++;
+				}
+				else
+				{
+					cout << "Sorry We Are Out of Checking Account Space!" << endl;
+					break;
+				}
+				
 
 				if (checkingTracker < 20) // might give us issues later if somehow checkingTracker isn't over 20 but all slots are filled thus causing us to overwrite someone's checking account
 				{
@@ -163,7 +173,6 @@ int main()
 							customerList[customerTracker].setAll(custFname, custLname, userAddress, custPhone, custEmail);
 
 							cout << "Please input customer's balance: ";
-							cin.ignore();
 							cin >> custBalance;
 							cout << "Please input overdraft limit for customer: ";
 							cin >> custOverdraftLimit;
@@ -178,11 +187,6 @@ int main()
 					}
 
 				}
-				else
-				{
-					cout << "Sorry We Are Out of Checking Account Space!" << endl;
-					break;
-				}
 			}
 			else if (userOpt == 2)
 			{
@@ -195,7 +199,15 @@ int main()
 				double custInterestRate;
 				Customer* cPtr = nullptr;
 				bool existingCustomer = false;
-				savingTracker++;
+				if (savingTracker < 19)
+				{
+					savingTracker++;
+				}
+				else
+				{
+					cout << "Sorry We Are Out of Saving Account Space!" << endl;
+					break;
+				}
 
 				if (savingTracker < 20) // might give us issues later if somehow savingTracker isn't over 20 but all slots are filled thus causing us to overwrite someone's savings account
 				{
@@ -216,7 +228,7 @@ int main()
 							cout << "Please input interest rate for new savings account: ";
 							cin >> custInterestRate;
 							Customer* cPtr = customerList + i;
-							savingList[checkingTracker].setAll(cPtr, i, custBalance, custInterestRate);
+							savingList[savingTracker].setAll(cPtr, savingTracker, custBalance, custInterestRate);
 							existingCustomer = true;
 							break;
 						}
@@ -244,7 +256,7 @@ int main()
 							cout << "Please input interest rate for customer: ";
 							cin >> custInterestRate;
 							Customer* cPtr = customerList + customerTracker;
-							savingList[checkingTracker].setAll(cPtr, checkingTracker, custBalance, custInterestRate);
+							savingList[savingTracker].setAll(cPtr, savingTracker, custBalance, custInterestRate);
 						}
 						else // either no room for customer or element in customer list has preexisting information occupying it
 						{
@@ -252,11 +264,6 @@ int main()
 							break;
 						}
 					}
-				}
-				else
-				{
-					cout << "Sorry We Are Out of Saving Account Space!" << endl;
-					break;
 				}
 			}
 			else if (userOpt == 3)
@@ -335,7 +342,10 @@ int main()
 						{
 							for (int i = 0; i <= customerTracker; i++)
 							{
-								customerList[i].PrintInfo();
+								if (&customerList[i] != nullptr)
+								{
+									customerList[i].PrintInfo();
+								}
 							}
 						}
 						else if (customerTracker == 0)
@@ -354,7 +364,10 @@ int main()
 						{
 							for (int i = 0; i <= checkingTracker; i++)
 							{
-								checkingList[i].PrintInfo();
+								if (checkingList[i].returnAddress() != nullptr)
+								{
+									checkingList[i].PrintInfo();
+								}
 							}
 						}
 						else if (checkingTracker == 0)
@@ -373,7 +386,10 @@ int main()
 						{
 							for (int i = 0; i <= savingTracker; i++)
 							{
-								savingList[i].PrintInfo();
+								if (savingList[i].returnAddress() != nullptr)
+								{
+									savingList[i].PrintInfo();
+								}
 							}
 						}
 						else if (savingTracker == 0)
@@ -395,6 +411,7 @@ int main()
 				string custPhone;
 				int modifyOption;
 				bool existingCustomer = false;
+				bool exitMenu = false;
 
 				cout << "Please input customer email: ";
 				cin.ignore();
@@ -409,6 +426,9 @@ int main()
 					{
 						cout << endl << "Customer found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
 						existingCustomer = true;
+
+						int checkingAccounts[20];
+						int savingAccounts[20];
 						int noOfCustCheckAccs = 0;
 						int noOfCustSavAccs = 0;
 
@@ -416,12 +436,14 @@ int main()
 						{
 							if (&customerList[i] == checkingList[j].returnAddress())
 							{
+								checkingAccounts[noOfCustCheckAccs] = j;
 								noOfCustCheckAccs++;
 								cout << endl << "Checking Account #" << noOfCustCheckAccs << " :" << endl;
 								checkingList[j].PrintInfo();
 							}
 							if (&customerList[i] == savingList[j].returnAddress())
 							{
+								savingAccounts[noOfCustSavAccs] = j;
 								noOfCustSavAccs++;
 								cout << endl << "Saving Account #" << noOfCustSavAccs << " :" << endl;
 								savingList[j].PrintInfo();
@@ -451,35 +473,33 @@ int main()
 							int accountType;
 							cin >> accountType;
 
-							if (accountType == 1 && noOfCustCheckAccs != 0) // checking account 
+							if ((accountType == 1 && noOfCustCheckAccs == 0) || (accountType == 2 && noOfCustSavAccs == 0))
+							{
+								cout << endl << "There are no accounts of that type." << endl;
+								cout << "Exiting to main menu..." << endl;
+								break;
+							}
+
+							int chosenIndex = -1;
+							if (accountType == 1) // checking account 
 							{
 								int custAcc;
-								int tracker = 0;
-								for (int j = 0; j < 20; j++) // displaying all checking accounts associated with customer account
-								{
-									if (&customerList[i] == checkingList[j].returnAddress())
-									{
-										tracker++;
-										cout << endl << "Checking Account #" << j + 1 << " :" << endl;
-										checkingList[j].PrintInfo();
-									}
-								}
 
-								if (tracker > 1) // if there is more than once checking account associated with customer ask teller to choose which account is going to be modified
+								if (noOfCustCheckAccs > 1) // if there is more than once checking account associated with customer ask teller to choose which account is going to be modified
 								{
 									cout << endl << "Which checking acccount?" << endl;
 									cin >> custAcc;
-									if (custAcc > tracker || custAcc < 1)
+									if (custAcc > noOfCustCheckAccs || custAcc < 1)
 									{
 										cout << endl << "Entered invalid account number!" << endl;
 										cout << "Exiting to main menu..." << endl;
 										break;
 									}
-									custAcc--;
+									chosenIndex = checkingAccounts[custAcc - 1];
 								}
 								else
 								{
-									custAcc = 0;
+									chosenIndex = checkingAccounts[0];
 								}
 
 								double amount;
@@ -488,66 +508,50 @@ int main()
 
 								if (modifyOption == 1)
 								{
-									checkingList[custAcc].DepositMoney(amount);
+									checkingList[chosenIndex].DepositMoney(amount);
 								}
 								else
 								{
-									checkingList[custAcc].WithdrawMoney(amount);
+									checkingList[chosenIndex].WithdrawMoney(amount);
 								}
 							}
-							else if (accountType == 2 && noOfCustSavAccs != 0) // saving account
+							else if (accountType == 2) // saving account
 							{
 								int custAcc;
-								int tracker = 0;
-								for (int j = 0; j < 20; j++) // displaying all savings accounts associated with customer account
-								{
-									if (&customerList[i] == savingList[j].returnAddress())
-									{
-										tracker++;
-										cout << endl << "Saving Account #" << j + 1 << " :" << endl;
-										savingList[j].PrintInfo();
-									}
-								}
 
-								if (tracker > 1) // if there is more than once saving account associated with customer ask teller to choose which account is going to be modified
+								if (noOfCustSavAccs > 1) // if there is more than once saving account associated with customer ask teller to choose which account is going to be modified
 								{
 									cout << endl << "Which savings acccount?" << endl;
 									cin >> custAcc;
-									if (custAcc > tracker || custAcc < 1)
+									if (custAcc > noOfCustSavAccs || custAcc < 1)
 									{
 										cout << endl << "Entered invalid account number!" << endl;
 										cout << "Exiting to main menu..." << endl;
 										break;
 									}
-									custAcc--;
+									chosenIndex = savingAccounts[custAcc - 1];
+
+									double amount;
+									cout << endl << "Enter amount customer would like to deposit or withdraw:";
+									cin >> amount;
+
+									if (modifyOption == 1)
+									{
+										savingList[chosenIndex].DepositMoney(amount);
+									}
+									else
+									{
+										savingList[chosenIndex].WithdrawMoney(amount);
+									}
 								}
 								else
 								{
-									custAcc = 0;
-								}
-
-								double amount;
-								cout << endl << "Enter amount customer would like to deposit or withdraw:";
-								cin >> amount;
-
-								if (modifyOption == 1)
-								{
-									savingList[custAcc].DepositMoney(amount);
-								}
-								else
-								{
-									savingList[custAcc].WithdrawMoney(amount);
+									chosenIndex = savingAccounts[0];
 								}
 							}
 							else if (accountType != 1 && accountType != 2)
 							{
 								cout << endl << "Entered invalid option!" << endl;
-								cout << "Exiting to main menu..." << endl;
-								break;
-							}
-							else
-							{
-								cout << endl << "Customer does not have an account of this type." << endl;
 								cout << "Exiting to main menu..." << endl;
 								break;
 							}
@@ -581,7 +585,8 @@ int main()
 							{
 								string newAddress;
 								cout << endl << "New Address: ";
-								cin >> newAddress;
+								cin.ignore();
+								getline(cin, newAddress);
 								customerList[i].setAddress(newAddress);
 							}
 							else if (accEditOpt == 4)
@@ -643,17 +648,21 @@ int main()
 						existingCustomer = true;
 						int noOfCustCheckAccs = 0;
 						int noOfCustSavAccs = 0;
+						int checkingAccounts[20];
+						int savingAccounts[20];
 
 						for (int j = 0; j < 20; j++) // searching for checking and savings accounts associated with customer account
 						{
 							if (&customerList[i] == checkingList[j].returnAddress())
 							{
+								checkingAccounts[noOfCustCheckAccs] = j;
 								noOfCustCheckAccs++;
 								cout << endl << "Checking Account #" << noOfCustCheckAccs << " :" << endl;
 								checkingList[j].PrintInfo();
 							}
 							if (&customerList[i] == savingList[j].returnAddress())
 							{
+								savingAccounts[noOfCustSavAccs] = j;
 								noOfCustSavAccs++;
 								cout << endl << "Saving Account #" << noOfCustSavAccs << " :" << endl;
 								savingList[j].PrintInfo();
@@ -673,31 +682,22 @@ int main()
 						int accountType;
 						cin >> accountType;
 
-						if (accountType == 1 && noOfCustCheckAccs != 0) // checking account 
+						int chosenIndex = -1;
+						if (accountType == 1) // checking account 
 						{
 							int custAcc;
-							int tracker = 0;
-							for (int j = 0; j < 20; j++) // displaying all checking accounts associated with customer account
-							{
-								if (&customerList[i] == checkingList[j].returnAddress())
-								{
-									tracker++;
-									cout << endl << "Checking Account #" << j + 1 << " :" << endl;
-									checkingList[j].PrintInfo();
-								}
-							}
 
-							if (tracker > 1) // if there is more than once checking account associated with customer ask teller to choose which account is going to be modified
+							if (noOfCustCheckAccs > 1) // if there is more than once checking account associated with customer ask teller to choose which account is going to be modified
 							{
 								cout << endl << "Which checking acccount?" << endl;
 								cin >> custAcc;
-								if (custAcc > tracker || custAcc < 1)
+								if (custAcc > noOfCustCheckAccs || custAcc < 1)
 								{
 									cout << endl << "Entered invalid account number!" << endl;
 									cout << "Exiting to main menu..." << endl;
 									break;
 								}
-								custAcc--;
+								chosenIndex = checkingAccounts[custAcc - 1];
 							}
 							else
 							{
@@ -705,36 +705,30 @@ int main()
 							}
 
 							cout << endl << "Deleting account..." << endl;
-							checkingList[i].setAll(0, 0, nullptr, 0);
+							checkingList[chosenIndex].setAll(0, 0, nullptr, 0);
+							if (checkingTracker > 0)
+							{
+								checkingTracker--;
+							}
 							cout << "Account deleted!" << endl;
 							cout << "Returning to main menu..." << endl;
 							break;
 						}
-						else if (accountType == 2 && noOfCustSavAccs != 0) // saving account
+						else if (accountType == 2) // saving account
 						{
 							int custAcc;
-							int tracker = 0;
-							for (int j = 0; j < 20; j++) // displaying all savings accounts associated with customer account
-							{
-								if (&customerList[i] == savingList[j].returnAddress())
-								{
-									tracker++;
-									cout << endl << "Saving Account #" << j + 1 << " :" << endl;
-									savingList[j].PrintInfo();
-								}
-							}
 
-							if (tracker > 1) // if there is more than once saving account associated with customer ask teller to choose which account is going to be modified
+							if (noOfCustSavAccs > 1) // if there is more than once saving account associated with customer ask teller to choose which account is going to be modified
 							{
 								cout << endl << "Which savings acccount?" << endl;
 								cin >> custAcc;
-								if (custAcc > tracker || custAcc < 1)
+								if (custAcc > noOfCustSavAccs || custAcc < 1)
 								{
 									cout << endl << "Entered invalid account number!" << endl;
 									cout << "Exiting to main menu..." << endl;
 									break;
 								}
-								custAcc--;
+								chosenIndex = savingAccounts[custAcc - 1];
 							}
 							else
 							{
@@ -742,7 +736,11 @@ int main()
 							}
 
 							cout << endl << "Deleting account..." << endl;
-							savingList[i].setAll(nullptr, 0, 0, 0);
+							savingList[chosenIndex].setAll(nullptr, 0, 0, 0);
+							if (savingTracker > 0)
+							{
+								savingTracker--;
+							}
 							cout << "Account deleted!" << endl;
 							cout << "Returning to main menu..." << endl;
 							break;
@@ -873,6 +871,18 @@ int main()
 								cout << endl << "How much money do you want to transfer:" << endl;
 								cin >> transferAmount;
 
+								if (transferAmount <= 0) 
+								{
+									cout << "Transfer amount must be positive!" << endl;
+									break;
+								}
+
+								if (savingList[senderAccIndex].getBalance() < transferAmount) 
+								{
+									cout << "Insufficient funds for transfer!" << endl;
+									break;
+								}
+
 								savingList[senderAccIndex].transfer(transferAmount, &savingList[transferAccIndex]);
 								savingList[senderAccIndex].PrintInfo();
 								savingList[transferAccIndex].PrintInfo();
@@ -911,48 +921,55 @@ int main()
 		}
 	} 
 	// System Summary Output
-ofstream outfile;
-outfile.open("C:\\TEMP\\system_summary.txt");
 
-if (!outfile)
-{
-	cout << "Error: could not create system summary file." << endl;
-}
-else
-{
-	outfile << "===== DOLPHIN BANK SYSTEM SUMMARY =====" << endl;
-	outfile << "Total Customers: " << customerTracker + 1 << endl;
-	outfile << "Total Checking Accounts: " << checkingTracker + 1 << endl;
-	outfile << "Total Savings Accounts: " << savingTracker + 1 << endl;
-	outfile << endl;
+	ofstream outfile;
+	outfile.open("C:\\TEMP\\system_summary.txt");
 
-	outfile << "==CHECKING ACCOUNTS==" << endl;
-	for (int i = 0; i <= checkingTracker; i++)
+	if (!outfile)
 	{
-		Customer* c = checkingList[i].getAccountCustomer();
-		outfile << "Account ID: " << checkingList[i].getId()
-				<< ", Balance: $" << checkingList[i].getBalance()
-				<< ", Owner: " << (*c).getFname() << " " << (*c).getLname()
-				<< ", Email: " << (*c).getEmail()
-				<< ", Phone: " << (*c).getPhone()
-				<< endl;
+		cout << "Error: could not create system summary file." << endl;
 	}
-
-	outfile << endl << "==SAVINGS ACCOUNTS==" << endl;
-	for (int i = 0; i <= savingTracker; i++)
+	else
 	{
-		Customer* c = savingList[i].getAccountCustomer();
-		outfile << "Account ID: " << savingList[i].getId()
-				<< ", Balance: $" << savingList[i].getBalance()
-				<< ", Owner: " << (*c).getFname() << " " << (*c).getLname()
-				<< ", Email: " << (*c).getEmail()
-				<< ", Phone: " << (*c).getPhone()
-				<< endl;
-	}
+		outfile << "===== DOLPHIN BANK SYSTEM SUMMARY =====" << endl;
+		outfile << "Total Customers: " << customerTracker + 1 << endl;
+		outfile << "Total Checking Accounts: " << checkingTracker + 1 << endl;
+		outfile << "Total Savings Accounts: " << savingTracker + 1 << endl;
+		outfile << endl;
 
-	outfile.close();
-	cout << "System summary saved to C:\\TEMP\\system_summary.txt" << endl;
-}
+		outfile << "==CHECKING ACCOUNTS==" << endl;
+		for (int i = 0; i <= checkingTracker; i++)
+		{
+			if (checkingList[i].getAccountCustomer() != nullptr)
+			{
+				Customer* c = checkingList[i].getAccountCustomer();
+				outfile << "Account ID: " << checkingList[i].getId()
+					<< ", Balance: $" << checkingList[i].getBalance()
+					<< ", Owner: " << (*c).getFname() << " " << (*c).getLname()
+					<< ", Email: " << (*c).getEmail()
+					<< ", Phone: " << (*c).getPhone()
+					<< endl;
+			}
+		}
+
+		outfile << endl << "==SAVINGS ACCOUNTS==" << endl;
+		for (int i = 0; i <= savingTracker; i++)
+		{
+			if (savingList[i].getAccountCustomer() != nullptr)
+			{
+				Customer* c = savingList[i].getAccountCustomer();
+				outfile << "Account ID: " << savingList[i].getId()
+					<< ", Balance: $" << savingList[i].getBalance()
+					<< ", Owner: " << (*c).getFname() << " " << (*c).getLname()
+					<< ", Email: " << (*c).getEmail()
+					<< ", Phone: " << (*c).getPhone()
+					<< endl;
+			}
+		}
+
+		outfile.close();
+		cout << "System summary saved to C:\\TEMP\\system_summary.txt" << endl;
+	}
 	
 
 
