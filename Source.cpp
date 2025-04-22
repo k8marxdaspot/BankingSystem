@@ -910,7 +910,49 @@ int main()
 			cout << endl;
 		}
 	} 
-	
+	// System Summary Output
+ofstream outfile;
+outfile.open("C:\\TEMP\\system_summary.txt");
+
+if (!outfile)
+{
+	cout << "Error: could not create system summary file." << endl;
+}
+else
+{
+	outfile << "===== DOLPHIN BANK SYSTEM SUMMARY =====" << endl;
+	outfile << "Total Customers: " << customerTracker + 1 << endl;
+	outfile << "Total Checking Accounts: " << checkingTracker + 1 << endl;
+	outfile << "Total Savings Accounts: " << savingTracker + 1 << endl;
+	outfile << endl;
+
+	outfile << "==CHECKING ACCOUNTS==" << endl;
+	for (int i = 0; i <= checkingTracker; i++)
+	{
+		Customer* c = checkingList[i].getAccountCustomer();
+		outfile << "Account ID: " << checkingList[i].getId()
+				<< ", Balance: $" << checkingList[i].getBalance()
+				<< ", Owner: " << (*c).getFname() << " " << (*c).getLname()
+				<< ", Email: " << (*c).getEmail()
+				<< ", Phone: " << (*c).getPhone()
+				<< endl;
+	}
+
+	outfile << endl << "==SAVINGS ACCOUNTS==" << endl;
+	for (int i = 0; i <= savingTracker; i++)
+	{
+		Customer* c = savingList[i].getAccountCustomer();
+		outfile << "Account ID: " << savingList[i].getId()
+				<< ", Balance: $" << savingList[i].getBalance()
+				<< ", Owner: " << (*c).getFname() << " " << (*c).getLname()
+				<< ", Email: " << (*c).getEmail()
+				<< ", Phone: " << (*c).getPhone()
+				<< endl;
+	}
+
+	outfile.close();
+	cout << "System summary saved to C:\\TEMP\\system_summary.txt" << endl;
+}
 	
 
 
