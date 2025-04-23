@@ -132,7 +132,7 @@ int main()
 				}
 				
 
-				if (checkingTracker < 20) // might give us issues later if somehow checkingTracker isn't over 20 but all slots are filled thus causing us to overwrite someone's checking account
+				if (checkingTracker < 20)
 				{
 					cout << "Please input email: ";
 					cin.ignore();
@@ -225,7 +225,7 @@ int main()
 					break;
 				}
 
-				if (savingTracker < 20) // might give us issues later if somehow savingTracker isn't over 20 but all slots are filled thus causing us to overwrite someone's savings account
+				if (savingTracker < 20)
 				{
 					cout << "Please input email: ";
 					cin.ignore();
@@ -373,7 +373,7 @@ int main()
 						{
 							for (int i = 0; i <= customerTracker; i++)
 							{
-								if (&customerList[i] != nullptr)
+								if (customerList[i].getFname() != "" && customerList[i].getLname() != "" && customerList[i].getEmail() != "")
 								{
 									customerList[i].PrintInfo();
 								}
