@@ -148,8 +148,16 @@ int main()
 							cout << "Customer found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
 							cout << "Please input balance for new checking account: ";
 							cin >> custBalance;
+							if (custBalance < 0)
+							{
+								custBalance = 0;
+							}
 							cout << "Please input overdraft limit for new checking account: ";
 							cin >> custOverdraftLimit;
+							if (custOverdraftLimit < 0)
+							{
+								custOverdraftLimit = 20.0;
+							}
 							Customer* cPtr = customerList + i;
 							checkingList[checkingTracker].setAll(i, custBalance, cPtr, custOverdraftLimit);
 							existingCustomer = true;
@@ -174,8 +182,16 @@ int main()
 
 							cout << "Please input customer's balance: ";
 							cin >> custBalance;
+							if(custBalance < 0)
+							{
+								custBalance = 0;
+							}
 							cout << "Please input overdraft limit for customer: ";
 							cin >> custOverdraftLimit;
+							if (custOverdraftLimit < 0)
+							{
+								custOverdraftLimit = 20.0;
+							}
 							Customer* cPtr = customerList + customerTracker;
 							checkingList[checkingTracker].setAll(checkingTracker, custBalance, cPtr, custOverdraftLimit);
 						}
@@ -225,8 +241,16 @@ int main()
 							cout << "Customer found: " << customerList[i].getFname() << " " << customerList[i].getLname() << endl;
 							cout << "Please input balance for new savings account: ";
 							cin >> custBalance;
+							if (custBalance < 0)
+							{
+								custBalance = 0;
+							}
 							cout << "Please input interest rate for new savings account: ";
 							cin >> custInterestRate;
+							if (custInterestRate < 0 || custInterestRate > 100)
+							{
+								custInterestRate = 0;
+							}
 							Customer* cPtr = customerList + i;
 							savingList[savingTracker].setAll(cPtr, savingTracker, custBalance, custInterestRate);
 							existingCustomer = true;
@@ -251,10 +275,17 @@ int main()
 							customerList[customerTracker].setAll(custFname, custLname, userAddress, custPhone, custEmail);
 
 							cout << "Please input customer's balance: ";
-							cin.ignore();
 							cin >> custBalance;
+							if (custBalance < 0)
+							{
+								custBalance = 0;
+							}
 							cout << "Please input interest rate for customer: ";
 							cin >> custInterestRate;
+							if (custInterestRate < 0 || custInterestRate > 100)
+							{
+								custInterestRate = 0;
+							}
 							Customer* cPtr = customerList + customerTracker;
 							savingList[savingTracker].setAll(cPtr, savingTracker, custBalance, custInterestRate);
 						}
