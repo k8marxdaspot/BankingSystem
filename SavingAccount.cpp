@@ -2,7 +2,7 @@
 
 void SavingAccount::setInterestRate(double _interestRate)
 {
-	if (interestRate > 0.0 && interestRate < 10.0) // interest rate should not be 0 and it would be very unlikely for it to be greater than 10
+	if (interestRate >= 0.0 && interestRate < 10.0) // interest rate should not be 0 and it would be very unlikely for it to be greater than 10
 	{											   // high yield savings accounts have around a maximum interest rate of 5ish	
 		interestRate = _interestRate;
 	}
@@ -38,6 +38,7 @@ void SavingAccount::payInterest()
 	if (getBalance() > 0)
 	{
 		double interestAccrued = getBalance() * interestRate;
+		cout << "Interest Accrued: " << interestAccrued << endl;
 		DepositMoney(interestAccrued);
 	}
 }

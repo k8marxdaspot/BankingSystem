@@ -485,7 +485,8 @@ int main()
 						cout << "1. DEPOSIT" << endl;
 						cout << "2. WITHDRAW" << endl;
 						cout << "3. EDIT CUSTOMER ACCOUNT INFORMATION" << endl;
-						cout << "4. EXIT BACK TO MAIN MENU" << endl;
+						cout << "4. PAY INTEREST TO CUSTOMER SAVING ACCOUNTS" << endl;
+						cout << "5. EXIT BACK TO MAIN MENU" << endl;
 						cout << "Please enter option (1-4): ";
 						cin >> modifyOption;
 
@@ -640,7 +641,28 @@ int main()
 								cout << "Exiting to main menu..." << endl;
 							}
 						}
-						else if (modifyOption < 1 || modifyOption > 4)
+						else if (modifyOption == 4)
+						{
+							if (noOfCustSavAccs == 0)
+							{
+								cout << endl << "This customer has no associated accounts." << endl;
+								cout << "Exiting to main menu..." << endl;
+								break;
+							}
+							else
+							{
+								cout << endl << "Paying Interest to Customer's Saving Accounts" << endl;
+								for (int j = 0; j < 20; j++) // searching savings accounts associated with customer account
+								{
+									if (&customerList[i] == savingList[j].returnAddress())
+									{
+										savingList[j].payInterest();
+										savingList[j].PrintInfo();
+									}
+								}
+							}
+						}
+						else if (modifyOption < 1 || modifyOption > 5)
 						{
 							cout << endl << "Entered invalid option. Exiting to main menu..." << endl;
 							break;
